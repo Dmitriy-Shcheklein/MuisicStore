@@ -3,8 +3,27 @@ import useTypeSelector from '../../hooks/usetypeSelector';
 import ErrorIndicator from '../ErrorBoundary/ErrorIndicator';
 import Spinner from '../Spinner';
 import { useActions } from '../../hooks/useActions';
+import AlbumItems from './AlbumItems';
+import PagesNav from '../Pages/PagesNav';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& li': {
+      listStyleType: 'none'
+    }
+  },
+  nav: {
+    display: 'flex',
+  }
+})
 
 const AlbumsList: FC = () => {
+
+  const classes = useStyles();
 
   const { albums, error, loading, limit, page } = useTypeSelector(state => state.albums);
 
@@ -24,27 +43,32 @@ const AlbumsList: FC = () => {
     return <ErrorIndicator />
   }
   return (
-    <>
+    <section className={classes.root}>
       <ul>
         {
           albums.map(album =>
             <li key={album.id}>
-              {album.title} - {album.userId} -{album.price}
+              <AlbumItems
+                userId={album.userId}
+                title={album.title}
+                price={album.price = 10}
+              />
             </li>)
         }
       </ul>
-      <ul>
+      <ul className={classes.nav}>
         {
           pages.map((page, idx) =>
             <li
               key={idx}>
-              <button
-                onClick={() => setAlbumPage(page)}
-              >{page}</button>
+              <PagesNav
+                setAlbumPage={setAlbumPage}
+                page={page}
+              />
             </li>)
         }
       </ul>
-    </>
+    </section>
   )
 }
 

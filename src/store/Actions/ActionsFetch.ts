@@ -26,7 +26,7 @@ const dispatchError = (errorTxt: string): FetchAlbumError => {
   }
 }
 
-const fetchAlbums = (page = 1, limit = 10) => {
+const fetchAlbums = (page = 1, limit = 4) => {
 
   const errorTxt = ' Что то пошло не так!'
 

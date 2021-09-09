@@ -7,20 +7,31 @@ const initialState: CartState = {
 }
 
 
-export const cartReducer = (state = initialState, action: any): void => {
+export const cartReducer = (state = initialState, action: any): CartState => {
 
-  // switch (action.type) {
-  //   case CartActiontypes.ADD_ITEM_TO_CART:
-  //     return {
-  //     }
-  //   case CartActiontypes.DECREASE_ITEM_TO_CART:
-  //     return
-  //   case CartActiontypes.DELETE_ITEM_TO_CART:
-  //     return
-  //   case CartActiontypes.CLEAN_CART:
-  //     return
-  //   default:
-  //     return state;
-  // }
+  switch (action.type) {
+    case CartActiontypes.ADD_ITEM_TO_CART:
+      return {
+        cart: action.payload,
+        totalPrice: action.payload,
+      }
+    case CartActiontypes.DECREASE_ITEM_TO_CART:
+      return {
+        cart: action.payload,
+        totalPrice: action.payload,
+      }
+    case CartActiontypes.DELETE_ITEM_TO_CART:
+      return {
+        cart: action.payload,
+        totalPrice: action.payload,
+      }
+    case CartActiontypes.CLEAN_CART:
+      return {
+        cart: action.payload,
+        totalPrice: action.payload,
+      }
+    default:
+      return state;
+  }
 
 }

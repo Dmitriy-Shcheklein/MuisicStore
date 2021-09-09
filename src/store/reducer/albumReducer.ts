@@ -12,7 +12,7 @@ const initialState: UserState = {
   loading: false,
   error: null,
   page: 1,
-  limit: 10,
+  limit: 4,
 }
 
 const albumReducer = (state = initialState, action: AlbumAction): UserState => {

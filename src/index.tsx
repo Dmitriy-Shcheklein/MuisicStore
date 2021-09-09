@@ -1,11 +1,12 @@
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './App';
+import App from './components/App';
 import ErrorBoundary from './components/ErrorBoundary';
 import { store } from './store/store';
 import { BrowserRouter } from 'react-router-dom'
 import { MyContext } from './Context/context';
 import { Service } from './service/Service';
+import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
 
 const service = new Service();
 
@@ -14,7 +15,9 @@ ReactDOM.render(
     <ErrorBoundary>
       <MyContext.Provider value={service}>
         <BrowserRouter>
-          <App />
+          <ScopedCssBaseline>
+            <App />
+          </ScopedCssBaseline>
         </BrowserRouter>
       </MyContext.Provider>
     </ErrorBoundary>
