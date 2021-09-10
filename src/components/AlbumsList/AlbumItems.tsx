@@ -1,10 +1,12 @@
 import { makeStyles } from '@material-ui/core';
-import React, { FC } from 'react';
+import { FC, MouseEventHandler } from 'react';
 
-interface CartItemsProps {
+interface CartItemProps {
   userId: number,
+  id: number,
   title: string,
   price: number,
+  addItemToCart: any,
 }
 
 const useStyles = makeStyles({
@@ -17,11 +19,13 @@ const useStyles = makeStyles({
   }
 })
 
-const AlbumItems: FC<CartItemsProps> = (props) => {
+const AlbumItems: FC<CartItemProps> = (props) => {
 
-  const { userId, title, price } = props;
+  const { userId, title, price, addItemToCart } = props;
 
-  const classes = useStyles()
+  const classes = useStyles();
+
+
 
   return (
     <div className={classes.root}>
@@ -29,6 +33,10 @@ const AlbumItems: FC<CartItemsProps> = (props) => {
       <p>Album name: {title}</p>
       <p><strong>Price: ${price}</strong></p>
       <div></div>
+      <button
+        onClick={addItemToCart}
+        type='button'
+      >Add to cart</button>
     </div>
   )
 }

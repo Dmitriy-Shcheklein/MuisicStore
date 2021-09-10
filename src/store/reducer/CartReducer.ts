@@ -1,35 +1,49 @@
-import { CartState } from "../../types/cartTypes"
-import { CartActiontypes } from "../../types/cartTypes"
+import { UserState } from "../../types/albumsTypes";
+import { CartAction, CartActiontypes } from "../../types/cartTypes";
+import { initialState } from "./albumReducer";
 
-const initialState: CartState = {
-  cart: [],
-  totalPrice: null,
-}
-
-
-export const cartReducer = (state = initialState, action: any): CartState => {
+export const cartReducer = (state: UserState = initialState, action: CartAction): UserState => {
 
   switch (action.type) {
     case CartActiontypes.ADD_ITEM_TO_CART:
-      return {
-        cart: action.payload,
-        totalPrice: action.payload,
+      console.log(state)
+      const productId = action.payload;
+      const album = state.albums.find(album => album.id === productId)
+      console.log(album)
+      if (!album) return {
+        ...state,
+        cartList: [],
       }
-    case CartActiontypes.DECREASE_ITEM_TO_CART:
+      const newItem = {
+        userId: album.userId,
+        id: album.id,
+        title: album.title,
+        price: 10,
+        count: 1,
+      };
       return {
-        cart: action.payload,
-        totalPrice: action.payload,
+        ...state,
+        cartList: [
+          ...state.cartList,
+          newItem,
+        ],
+        totalPrice: state.cartList.reduce((prev, current) => prev + current.price, 0),
       }
-    case CartActiontypes.DELETE_ITEM_TO_CART:
-      return {
-        cart: action.payload,
-        totalPrice: action.payload,
-      }
-    case CartActiontypes.CLEAN_CART:
-      return {
-        cart: action.payload,
-        totalPrice: action.payload,
-      }
+    // case CartActiontypes.DECREASE_ITEM_TO_CART:
+    //   return {
+    //     cartList: action.payload,
+    //     totalPrice: action.payload,
+    //   }
+    // case CartActiontypes.DELETE_ITEM_TO_CART:
+    //   return {
+    //     cartList: action.payload,
+    //     totalPrice: action.payload,
+    //   }
+    // case CartActiontypes.CLEAN_CART:
+    //   return {
+    //     cartList: action.payload,
+    //     totalPrice: action.payload,
+    //   }
     default:
       return state;
   }

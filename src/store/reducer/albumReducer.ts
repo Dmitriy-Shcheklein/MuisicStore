@@ -13,6 +13,8 @@ const initialState: UserState = {
   error: null,
   page: 1,
   limit: 4,
+  cartList: [],
+  totalPrice: null,
 }
 
 const albumReducer = (state = initialState, action: AlbumAction): UserState => {

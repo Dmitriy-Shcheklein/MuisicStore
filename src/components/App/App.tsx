@@ -1,8 +1,9 @@
-import React from 'react';
 import { Route, Switch } from "react-router";
-import ButtonAppBar from '../Menu';
+import Menu from '../Menu';
 import AlbumsList from "../AlbumsList";
 import { makeStyles } from '@material-ui/styles';
+import Cart from "../Cart";
+
 
 const useStyles = makeStyles({
   root: {
@@ -16,10 +17,10 @@ const App = () => {
 
   return (
     <div className={classes.root}>
-      <ButtonAppBar />
+      <Menu />
       <Switch>
         <Route path='/albums' component={AlbumsList} />
-
+        <Route path='/cart' component={Cart} />
       </Switch>
     </div>
   );

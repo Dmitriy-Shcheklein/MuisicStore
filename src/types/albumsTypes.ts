@@ -1,8 +1,17 @@
+
 export enum AlbumActionsTypes {
   FETCH_ALBUM_LOADING = 'FETCH_ALBUM_LOADING',
   FETCH_ALBUM_SUCCESS = 'FETCH_ALBUM_SUCCESS',
   FETCH_ALBUM_ERROR = 'FETCH_ALBUM_ERROR',
   SET_ALBUM_PAGE = 'SET_ALBUM_PAGE',
+}
+
+export interface CartItems {
+  userId: number,
+  id: number,
+  title: string,
+  price: number,
+  count?: null | number
 }
 
 export interface Albums {
@@ -18,6 +27,8 @@ export interface UserState {
   error: null | string,
   page: number,
   limit: number,
+  cartList: CartItems[],
+  totalPrice: null | number,
 }
 
 export interface FetchAlbumLoading {

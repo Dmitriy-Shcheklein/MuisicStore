@@ -5,33 +5,33 @@ export enum CartActiontypes {
   DELETE_ITEM_TO_CART = 'DELETE_ITEM_TO_CART'
 }
 
-export interface CartItem {
+export interface CartItems {
   userId: number,
   id: number,
   title: string,
   price: number,
+  count?: null | number
 }
 
 export interface CartState {
-  cart: CartItem[],
+  cartList: CartItems[],
   totalPrice: null | number,
 }
 
 export interface AddItemToCart {
   type: CartActiontypes.ADD_ITEM_TO_CART,
-  payload: CartState,
+  payload: number,
 }
 export interface DecreseItemToCart {
   type: CartActiontypes.DECREASE_ITEM_TO_CART,
-  payload: CartState,
+  payload: number,
 }
 export interface CleanCart {
   type: CartActiontypes.CLEAN_CART,
-  payload: CartState,
 }
 export interface DeleteItemToCart {
   type: CartActiontypes.DELETE_ITEM_TO_CART,
-  payload: CartState
+  payload: number,
 }
 
 export type CartAction = AddItemToCart | DecreseItemToCart |

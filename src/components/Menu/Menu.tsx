@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -34,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function ButtonAppBar() {
+export default function Menu() {
   const classes = useStyles();
 
   return (
@@ -47,10 +46,14 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             <NavLink className={classes.link} to='/'>MusicStore</NavLink>
             <NavLink to='/albums'>Albums</NavLink>
+
           </Typography>
           <Button color="inherit">Login</Button>
-          <Button><ShoppingCartIcon className={classes.cart} /></Button>
-          <Button><RemoveShoppingCartIcon color='disabled' /></Button>
+          <NavLink to='/cart'>
+            <Button>
+              <ShoppingCartIcon className={classes.cart} />
+            </Button>
+          </NavLink>
         </Toolbar>
       </AppBar>
     </div>

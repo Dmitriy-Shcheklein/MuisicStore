@@ -6,6 +6,7 @@ import { useActions } from '../../hooks/useActions';
 import AlbumItems from './AlbumItems';
 import PagesNav from '../Pages/PagesNav';
 import { makeStyles } from '@material-ui/core';
+import { useCartActions } from '../../hooks/useActions';
 
 const useStyles = makeStyles({
   root: {
@@ -26,6 +27,7 @@ const AlbumsList: FC = () => {
   const classes = useStyles();
 
   const { albums, error, loading, limit, page } = useTypeSelector(state => state.albums);
+  const { addItemToCart } = useCartActions()
 
   const { fetchAlbums, setAlbumPage } = useActions();
 
@@ -35,6 +37,7 @@ const AlbumsList: FC = () => {
     fetchAlbums(page, limit);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
+
 
   if (loading) {
     return <Spinner />
@@ -49,9 +52,11 @@ const AlbumsList: FC = () => {
           albums.map(album =>
             <li key={album.id}>
               <AlbumItems
+                id={album.id}
                 userId={album.userId}
                 title={album.title}
                 price={album.price = 10}
+                addItemToCart={() => addItemToCart(album.id)}
               />
             </li>)
         }
