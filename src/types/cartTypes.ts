@@ -13,11 +13,6 @@ export interface CartItems {
   count?: null | number
 }
 
-export interface CartState {
-  cartList: CartItems[],
-  totalPrice: null | number,
-}
-
 export interface AddItemToCart {
   type: CartActiontypes.ADD_ITEM_TO_CART,
   payload: number,

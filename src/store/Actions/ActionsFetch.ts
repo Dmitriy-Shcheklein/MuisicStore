@@ -54,7 +54,16 @@ const setAlbumPage = (page: number): AlbumAction => {
   }
 }
 
+const addItemToCart = (productId: number): AlbumAction => {
+  return {
+    type: AlbumActionsTypes.ADD_ITEM_TO_CART,
+    payload: productId,
+  }
+}
+
+
 export {
   fetchAlbums,
-  setAlbumPage
+  setAlbumPage,
+  addItemToCart,
 }

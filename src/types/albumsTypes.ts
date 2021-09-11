@@ -1,9 +1,12 @@
-
 export enum AlbumActionsTypes {
   FETCH_ALBUM_LOADING = 'FETCH_ALBUM_LOADING',
   FETCH_ALBUM_SUCCESS = 'FETCH_ALBUM_SUCCESS',
   FETCH_ALBUM_ERROR = 'FETCH_ALBUM_ERROR',
   SET_ALBUM_PAGE = 'SET_ALBUM_PAGE',
+  ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART',
+  DECREASE_ITEM_TO_CART = 'DECREASe_ITEM_TO_CART',
+  CLEAN_CART = 'CLEAN_CART',
+  DELETE_ITEM_TO_CART = 'DELETE_ITEM_TO_CART'
 }
 
 export interface CartItems {
@@ -46,6 +49,22 @@ export interface SetAlbumPage {
   type: AlbumActionsTypes.SET_ALBUM_PAGE,
   payload: number,
 }
+export interface AddItemToCart {
+  type: AlbumActionsTypes.ADD_ITEM_TO_CART,
+  payload: number,
+}
+export interface DecreseItemToCart {
+  type: AlbumActionsTypes.DECREASE_ITEM_TO_CART,
+  payload: number,
+}
+export interface CleanCart {
+  type: AlbumActionsTypes.CLEAN_CART,
+}
+export interface DeleteItemToCart {
+  type: AlbumActionsTypes.DELETE_ITEM_TO_CART,
+  payload: number,
+}
 
 export type AlbumAction = FetchAlbumLoading | FetchAlbumSuccess |
-  FetchAlbumError | SetAlbumPage;
+  FetchAlbumError | SetAlbumPage | AddItemToCart | DecreseItemToCart |
+  CleanCart | DeleteItemToCart;

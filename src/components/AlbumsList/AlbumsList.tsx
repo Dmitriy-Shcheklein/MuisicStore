@@ -27,9 +27,8 @@ const AlbumsList: FC = () => {
   const classes = useStyles();
 
   const { albums, error, loading, limit, page } = useTypeSelector(state => state.albums);
-  const { addItemToCart } = useCartActions()
 
-  const { fetchAlbums, setAlbumPage } = useActions();
+  const { fetchAlbums, setAlbumPage, addItemToCart } = useActions();
 
   const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
