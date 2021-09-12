@@ -2,6 +2,8 @@ import axios from "axios"
 import { Dispatch } from "react"
 import {
   AlbumAction, AlbumActionsTypes, Albums,
+  CartAction,
+  CleanCart,
   FetchAlbumError,
   FetchAlbumLoading, FetchAlbumSuccess
 } from "../../types/albumsTypes"
@@ -54,10 +56,30 @@ const setAlbumPage = (page: number): AlbumAction => {
   }
 }
 
-const addItemToCart = (productId: number): AlbumAction => {
+const addItemToCart = (productId: number): CartAction => {
   return {
     type: AlbumActionsTypes.ADD_ITEM_TO_CART,
     payload: productId,
+  }
+}
+
+const decreaseItemToCart = (productId: number): CartAction => {
+  return {
+    type: AlbumActionsTypes.DECREASE_ITEM_TO_CART,
+    payload: productId
+  }
+}
+
+const deleteItemToCart = (productId: number): CartAction => {
+  return {
+    type: AlbumActionsTypes.DELETE_ITEM_TO_CART,
+    payload: productId
+  }
+}
+
+const cleanCart = (): CleanCart => {
+  return {
+    type: AlbumActionsTypes.CLEAN_CART,
   }
 }
 
@@ -66,4 +88,7 @@ export {
   fetchAlbums,
   setAlbumPage,
   addItemToCart,
+  decreaseItemToCart,
+  deleteItemToCart,
+  cleanCart,
 }

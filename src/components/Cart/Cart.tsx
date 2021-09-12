@@ -5,25 +5,33 @@ import { CartItems } from "../../types/albumsTypes";
 
 const Cart: FC = () => {
 
-  const { cartList } = useTypeSelector(state => state.albums)
+  const { cartList } = useTypeSelector(state => state.albums);
+
+  const { cleanCart } = useActions();
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Product Name</th>
-          <th>Price</th>
-          <th>Count</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <RowTable
-          cartList={cartList}
-        />
-      </tbody>
-    </table>
+    <>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Count</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <RowTable
+            cartList={cartList}
+          />
+        </tbody>
+      </table>
+      <button
+        onClick={cleanCart}
+        type='button'
+      >Clean Cart</button>
+    </>
   )
 }
 
@@ -37,7 +45,7 @@ const RowTable: FC<RowTableProps> = (props) => {
 
   const { cartList } = props;
 
-  const { addItemToCart } = useActions();
+  const { addItemToCart, deleteItemToCart, decreaseItemToCart } = useActions();
 
   return (
     <>
@@ -54,8 +62,14 @@ const RowTable: FC<RowTableProps> = (props) => {
                   onClick={() => addItemToCart(item.id)}
                   type='button'
                 >Add</button>
-                <button>Decrease</button>
-                <button>Delete</button>
+                <button
+                  onClick={() => decreaseItemToCart(item.id)}
+                  type='button'
+                >Decrease</button>
+                <button
+                  onClick={() => deleteItemToCart(item.id)}
+                  type='button'
+                >Delete</button>
               </td>
             </tr>
           )

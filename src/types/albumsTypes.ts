@@ -65,7 +65,8 @@ export interface DeleteItemToCart {
   type: AlbumActionsTypes.DELETE_ITEM_TO_CART,
   payload: number,
 }
+export type CartAction = AddItemToCart | DecreseItemToCart |
+  DeleteItemToCart;
 
 export type AlbumAction = FetchAlbumLoading | FetchAlbumSuccess |
-  FetchAlbumError | SetAlbumPage | AddItemToCart | DecreseItemToCart |
-  CleanCart | DeleteItemToCart;
+  FetchAlbumError | SetAlbumPage;
