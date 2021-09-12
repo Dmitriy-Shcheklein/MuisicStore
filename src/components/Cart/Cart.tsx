@@ -5,12 +5,14 @@ import { CartItems } from "../../types/albumsTypes";
 
 const Cart: FC = () => {
 
-  const { cartList } = useTypeSelector(state => state.albums);
+  const { cartList, total } = useTypeSelector(state => state.albums);
 
   const { cleanCart } = useActions();
 
   return (
     <>
+      <h2>Total price</h2>
+      <p>{total}</p>
       <table>
         <thead>
           <tr>

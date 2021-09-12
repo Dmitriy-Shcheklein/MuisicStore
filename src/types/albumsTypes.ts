@@ -32,7 +32,7 @@ export interface UserState {
   page: number,
   limit: number,
   cartList: CartItems[],
-  totalPrice: null | number,
+  total: null | number,
 }
 
 export interface FetchAlbumLoading {

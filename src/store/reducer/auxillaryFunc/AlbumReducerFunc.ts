@@ -1,6 +1,6 @@
 import {
   UserState, FetchAlbumSuccess,
-  FetchAlbumError, SetAlbumPage, AddItemToCart, CartItems,
+  FetchAlbumError, SetAlbumPage, CartItems,
   Albums,
   CartAction
 } from "../../../types/albumsTypes"
@@ -68,16 +68,16 @@ const updateItem = (album: Albums, item: CartItems, quantity: number) => {
     return {
       ...item,
       count: item.count + quantity,
-      totalPrice: item.totalPrice + item.price * quantity
+      totalPrice: item.totalPrice + item.price * quantity,
     }
   } else {
     return {
       userId: album.userId,
       id: album.id,
       title: album.title,
-      price: 10,
+      price: album.price,
       count: 1,
-      totalPrice: album.price
+      totalPrice: album.price,
     }
   }
 }
@@ -91,17 +91,18 @@ const updateCart = (state: UserState, action: CartAction, quantity: number): Use
       ...state.cartList
     ],
   }
-  const newTotalPrice = (state: UserState) => state.cartList
-    .reduce((prev, current) => prev + current.price, 0);
+
   const itemIdx = state.cartList.findIndex(album => album.id === productId);
   const item = state.cartList[itemIdx];
 
   let newItem: CartItems = updateItem(album, item, quantity);
-
+  const cartList = updateCartItems(state.cartList, newItem, itemIdx);
+  const total = cartList
+    .reduce((prev, current) => prev + current.totalPrice, 0);
   return {
     ...state,
-    cartList: updateCartItems(state.cartList, newItem, itemIdx),
-    totalPrice: newTotalPrice(state),
+    cartList,
+    total,
   }
 }
 
@@ -109,7 +110,7 @@ const cleanCart = (state: UserState): UserState => {
   return {
     ...state,
     cartList: [],
-    totalPrice: null,
+    total: null,
   }
 }
 
