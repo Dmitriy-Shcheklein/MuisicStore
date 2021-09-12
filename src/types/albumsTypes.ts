@@ -4,7 +4,7 @@ export enum AlbumActionsTypes {
   FETCH_ALBUM_ERROR = 'FETCH_ALBUM_ERROR',
   SET_ALBUM_PAGE = 'SET_ALBUM_PAGE',
   ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART',
-  DECREASE_ITEM_TO_CART = 'DECREASe_ITEM_TO_CART',
+  DECREASE_ITEM_TO_CART = 'DECREASE_ITEM_TO_CART',
   CLEAN_CART = 'CLEAN_CART',
   DELETE_ITEM_TO_CART = 'DELETE_ITEM_TO_CART'
 }
@@ -14,7 +14,8 @@ export interface CartItems {
   id: number,
   title: string,
   price: number,
-  count?: null | number
+  count: number,
+  totalPrice: number,
 }
 
 export interface Albums {

@@ -6,7 +6,6 @@ import { useActions } from '../../hooks/useActions';
 import AlbumItems from './AlbumItems';
 import PagesNav from '../Pages/PagesNav';
 import { makeStyles } from '@material-ui/core';
-import { useCartActions } from '../../hooks/useActions';
 
 const useStyles = makeStyles({
   root: {

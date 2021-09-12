@@ -4,7 +4,7 @@ import {
 } from "../../types/albumsTypes";
 import {
   fetchAlbumError, fetchAlbumLoading,
-  fetchAlbumSuccess, setAlbumPage,
+  fetchAlbumSuccess, setAlbumPage, updateCart,
 } from "./auxillaryFunc/AlbumReducerFunc";
 
 const initialState: UserState = {
@@ -29,29 +29,7 @@ const albumReducer = (state = initialState, action: AlbumAction): UserState => {
     case AlbumActionsTypes.SET_ALBUM_PAGE:
       return setAlbumPage(state, action);
     case AlbumActionsTypes.ADD_ITEM_TO_CART:
-      console.log(state)
-      const productId = action.payload;
-      const album = state.albums.find(album => album.id === productId)
-      console.log(album)
-      if (!album) return {
-        ...state,
-        cartList: [],
-      }
-      const newItem = {
-        userId: album.userId,
-        id: album.id,
-        title: album.title,
-        price: 10,
-        count: 1,
-      };
-      return {
-        ...state,
-        cartList: [
-          ...state.cartList,
-          newItem,
-        ],
-        totalPrice: state.cartList.reduce((prev, current) => prev + current.price, 0),
-      }
+      return updateCart(state, action)
     default:
       return state;
   }

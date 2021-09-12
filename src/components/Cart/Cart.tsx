@@ -1,6 +1,7 @@
 import { FC } from "react"
+import { useActions } from "../../hooks/useActions";
 import useTypeSelector from "../../hooks/usetypeSelector";
-import { CartItems } from "../../types/cartTypes";
+import { CartItems } from "../../types/albumsTypes";
 
 const Cart: FC = () => {
 
@@ -36,6 +37,8 @@ const RowTable: FC<RowTableProps> = (props) => {
 
   const { cartList } = props;
 
+  const { addItemToCart } = useActions();
+
   return (
     <>
       {
@@ -44,10 +47,13 @@ const RowTable: FC<RowTableProps> = (props) => {
             <tr key={item.id}>
               <td>{idx + 1}</td>
               <td>{item.userId}{item.title}</td>
-              <td>{item.price}</td>
+              <td>{item.totalPrice}</td>
               <td>{item.count}</td>
               <td>
-                <button>Add</button>
+                <button
+                  onClick={() => addItemToCart(item.id)}
+                  type='button'
+                >Add</button>
                 <button>Decrease</button>
                 <button>Delete</button>
               </td>
