@@ -29,10 +29,12 @@ const Cart: FC = () => {
           />
         </tbody>
       </table>
-      <button
-        onClick={cleanCart}
-        type='button'
-      >Clean Cart</button>
+      {
+        (cartList.length > 0) && (<button
+          onClick={cleanCart}
+          type='button'
+        >Clean Cart</button>)
+      }
     </>
   )
 }
