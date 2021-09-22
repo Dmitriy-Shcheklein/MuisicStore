@@ -60,11 +60,11 @@ export default function Menu() {
             <NavLink to='/albums' className={classes.link}>Albums</NavLink>
           </Typography>
           {!login && (<Button
-            onClick={() => userLogin()}
+            onClick={userLogin}
             color="inherit">Login</Button>)}
           {
             login && (<Button
-              onClick={() => userLogout()}
+              onClick={userLogout}
               color="inherit">LogOut</Button>)
           }
           <NavLink to='/cart'>

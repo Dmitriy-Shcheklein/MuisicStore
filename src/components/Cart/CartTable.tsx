@@ -1,7 +1,7 @@
 import { FC, MouseEventHandler } from "react"
-import { useActions } from "../../hooks/useActions";
 import { CartItems } from "../../types/albumsTypes";
-import { Button } from '@material-ui/core';
+import CartRowTable from "./CartRowTable";
+import CartTableButtons from "./CartTableButtons";
 
 interface CartTableProps {
   total: number | null,
@@ -28,61 +28,18 @@ const CartTable: FC<CartTableProps> = (props) => {
           </tr>
         </thead>
         <tbody>
-          <RowTable
+          <CartRowTable
             cartList={cartList}
           />
         </tbody>
       </table>
       {
-        (cartList.length > 0) && (<button
-          onClick={cleanCart}
-          type='button'
-        >Clean Cart</button>)
+        (cartList.length > 0) && (<CartTableButtons
+          cleanCart={cleanCart}
+        />)
       }
     </>
   )
 }
 
 export default CartTable
-
-interface RowTableProps {
-  cartList: CartItems[]
-}
-
-const RowTable: FC<RowTableProps> = (props) => {
-
-  const { cartList } = props;
-
-  const { addItemToCart, deleteItemToCart, decreaseItemToCart } = useActions();
-
-  return (
-    <>
-      {
-        cartList.map((item, idx) => {
-          return (
-            <tr key={item.id}>
-              <td>{idx + 1}</td>
-              <td>{item.userId}{item.title}</td>
-              <td>{item.totalPrice}</td>
-              <td>{item.count}</td>
-              <td>
-                <Button
-                  onClick={() => addItemToCart(item.id)}
-                  type='button'
-                >Add</Button>
-                <Button
-                  onClick={() => decreaseItemToCart(item.id)}
-                  type='button'
-                >Decrease</Button>
-                <Button
-                  onClick={() => deleteItemToCart(item.id)}
-                  type='button'
-                >Delete</Button>
-              </td>
-            </tr>
-          )
-        })
-      }
-    </>
-  )
-}
