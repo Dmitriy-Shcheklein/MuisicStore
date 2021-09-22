@@ -34,7 +34,7 @@ const CartTable: FC<CartTableProps> = (props) => {
         </tbody>
       </table>
       {
-        (cartList.length > 0) && (<CartTableButtons
+        (cartList.length) && (<CartTableButtons
           cleanCart={cleanCart}
         />)
       }

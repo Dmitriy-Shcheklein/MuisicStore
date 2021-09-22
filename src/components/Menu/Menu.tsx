@@ -10,13 +10,14 @@ import { NavLink } from 'react-router-dom';
 import { Badge } from '@material-ui/core';
 import useTypeSelector from '../../hooks/usetypeSelector';
 import { useAuthActions } from '../../hooks/useActions';
+import LoginModal from '../LoginModal';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
       position: 'sticky',
-      top: '0'
+      top: '0',
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -59,14 +60,13 @@ export default function Menu() {
             <NavLink to='/' className={classes.link}>MusicStore</NavLink>
             <NavLink to='/albums' className={classes.link}>Albums</NavLink>
           </Typography>
-          {!login && (<Button
-            onClick={userLogin}
-            color="inherit">Login</Button>)}
-          {
-            login && (<Button
-              onClick={userLogout}
-              color="inherit">LogOut</Button>)
-          }
+
+          <LoginModal
+            login={login}
+            userLogin={userLogin}
+            userLogout={userLogout}
+          />
+
           <NavLink to='/cart'>
             <Button>
               <Badge badgeContent={count} color="secondary">
