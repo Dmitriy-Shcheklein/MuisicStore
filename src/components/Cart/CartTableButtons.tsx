@@ -1,10 +1,13 @@
 import { FC, MouseEventHandler } from 'react';
+import useTypeSelector from '../../hooks/usetypeSelector';
 
 interface CartTableProps {
   cleanCart: MouseEventHandler
 }
 
 const CartTableButtons: FC<CartTableProps> = (props) => {
+
+  const { login } = useTypeSelector(state => state.auth)
 
   const { cleanCart } = props;
 
@@ -14,11 +17,11 @@ const CartTableButtons: FC<CartTableProps> = (props) => {
         onClick={cleanCart}
         type='button'
       >Clean Cart</button>
-      <button
+      {login && (<button
         onClick={() => alert("Did not work")}
         type='button'>
         Buy
-      </button>
+      </button>)}
     </div>
   )
 }
