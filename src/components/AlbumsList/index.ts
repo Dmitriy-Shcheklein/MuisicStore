@@ -1,3 +1,3 @@
-import AlbumsList from './AlbumsList';
+import AlbumsListContainer from './AlbumListContainer';
 
-export default AlbumsList;
+export default AlbumsListContainer;

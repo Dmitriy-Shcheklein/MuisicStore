@@ -48,5 +48,4 @@ const albumReducer = (state = initialState, action: AlbumAction | CartAction | C
 
 export {
   albumReducer,
-  initialState,
 }

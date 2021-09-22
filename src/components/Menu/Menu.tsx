@@ -1,4 +1,3 @@
-import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,11 +7,16 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { NavLink } from 'react-router-dom';
+import { Badge } from '@material-ui/core';
+import useTypeSelector from '../../hooks/usetypeSelector';
+import { useAuthActions } from '../../hooks/useActions';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      position: 'sticky',
+      top: '0'
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -26,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
     link: {
       color: '#ffffff',
       textDecoration: 'none',
+      margin: '0 10px',
       '&:hover': {
         color: '#848482'
       }
@@ -35,27 +40,42 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Menu() {
   const classes = useStyles();
+  const { cartList } = useTypeSelector(state => state.albums);
+
+  const count = cartList.reduce((accum, item) => accum + item.count, 0)
+
+  const { userLogin, userLogout } = useAuthActions();
+
+  const { login } = useTypeSelector(state => state.auth)
 
   return (
-    <div className={classes.root}>
+    <header className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <NavLink className={classes.link} to='/'>MusicStore</NavLink>
-            <NavLink to='/albums'>Albums</NavLink>
-
+            <NavLink to='/' className={classes.link}>MusicStore</NavLink>
+            <NavLink to='/albums' className={classes.link}>Albums</NavLink>
           </Typography>
-          <Button color="inherit">Login</Button>
+          {!login && (<Button
+            onClick={() => userLogin()}
+            color="inherit">Login</Button>)}
+          {
+            login && (<Button
+              onClick={() => userLogout()}
+              color="inherit">LogOut</Button>)
+          }
           <NavLink to='/cart'>
             <Button>
-              <ShoppingCartIcon className={classes.cart} />
+              <Badge badgeContent={count} color="secondary">
+                <ShoppingCartIcon className={classes.cart} />
+              </Badge>
             </Button>
           </NavLink>
         </Toolbar>
       </AppBar>
-    </div>
+    </header>
   );
 }

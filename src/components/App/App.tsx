@@ -1,8 +1,8 @@
 import { Route, Switch } from "react-router";
 import Menu from '../Menu';
-import AlbumsList from "../AlbumsList";
+import AlbumsListContainer from "../AlbumsList";
 import { makeStyles } from '@material-ui/styles';
-import Cart from "../Cart";
+import CartContainer from "../Cart";
 
 
 const useStyles = makeStyles({
@@ -19,8 +19,8 @@ const App = () => {
     <div className={classes.root}>
       <Menu />
       <Switch>
-        <Route path='/albums' component={AlbumsList} />
-        <Route path='/cart' component={Cart} />
+        <Route path='/albums' component={AlbumsListContainer} />
+        <Route path='/cart' component={CartContainer} />
       </Switch>
     </div>
   );

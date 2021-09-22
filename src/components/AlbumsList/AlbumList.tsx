@@ -1,11 +1,8 @@
-import { FC, useEffect } from 'react';
-import useTypeSelector from '../../hooks/usetypeSelector';
-import ErrorIndicator from '../ErrorBoundary/ErrorIndicator';
-import Spinner from '../Spinner';
-import { useActions } from '../../hooks/useActions';
+import { FC } from 'react';
 import AlbumItems from './AlbumItems';
 import PagesNav from '../Pages/PagesNav';
 import { makeStyles } from '@material-ui/core';
+import { Albums } from '../../types/albumsTypes';
 
 const useStyles = makeStyles({
   root: {
@@ -14,6 +11,14 @@ const useStyles = makeStyles({
     alignItems: 'center',
     '& li': {
       listStyleType: 'none'
+    },
+    '& ul': {
+      width: '30%',
+      padding: '0',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'start'
+
     }
   },
   nav: {
@@ -21,28 +26,20 @@ const useStyles = makeStyles({
   }
 })
 
-const AlbumsList: FC = () => {
+interface AlbumListProps {
+  albums: Albums[],
+  addItemToCart: Function,
+  setAlbumPage: Function,
+  pages: number[],
+}
+
+
+const AlbumList: FC<AlbumListProps> = (props) => {
+
+  const { albums, addItemToCart, pages, setAlbumPage } = props;
 
   const classes = useStyles();
 
-  const { albums, error, loading, limit, page } = useTypeSelector(state => state.albums);
-
-  const { fetchAlbums, setAlbumPage, addItemToCart } = useActions();
-
-  const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-  useEffect(() => {
-    fetchAlbums(page, limit);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page])
-
-
-  if (loading) {
-    return <Spinner />
-  }
-  if (error) {
-    return <ErrorIndicator />
-  }
   return (
     <section className={classes.root}>
       <ul>
@@ -75,4 +72,4 @@ const AlbumsList: FC = () => {
   )
 }
 
-export default AlbumsList;
+export default AlbumList;

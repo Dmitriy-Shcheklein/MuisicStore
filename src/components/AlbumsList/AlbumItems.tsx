@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/core';
-import { FC, MouseEventHandler } from 'react';
+import { makeStyles, Button } from '@material-ui/core';
+import { FC } from 'react';
 
 interface CartItemProps {
   userId: number,
@@ -16,6 +16,12 @@ const useStyles = makeStyles({
       height: '150px',
       backgroundColor: 'blue'
     }
+  },
+  button: {
+    width: '50%',
+    fontSize: '0,75rem',
+    marginTop: '20px',
+
   }
 })
 
@@ -25,18 +31,19 @@ const AlbumItems: FC<CartItemProps> = (props) => {
 
   const classes = useStyles();
 
-
-
   return (
     <div className={classes.root}>
       <h2>Musician: {userId}</h2>
-      <p>Album name: {title}</p>
+      <p>Album name:<br /> {title}</p>
       <p><strong>Price: ${price}</strong></p>
       <div></div>
-      <button
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
         onClick={addItemToCart}
         type='button'
-      >Add to cart</button>
+      >Add to cart</Button>
     </div>
   )
 }
