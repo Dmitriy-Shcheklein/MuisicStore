@@ -4,17 +4,58 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, Checkbox, Typography } from '@mui/material';
 import useTypeSelector from '../../hooks/usetypeSelector';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles({
+  root: {
+    width: '50%',
+    margin: '0 auto',
+    textAlign: 'center',
+    height: '100%'
+  },
+  title: {
+    width: '100%'
+  },
+  input: {
+    width: '100%',
+  },
+  checkbox: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  button: {
+    width: '50%',
+    margin: '0 auto',
+  },
+  wrapper: {
+    width: '100%',
+    position: 'relative',
+    '& small': {
+      color: '#dc143c',
+      position: 'absolute',
+      top: '100%',
+      left: '1%'
+    }
+  }
+})
 
 const RegistrationForm: FC = () => {
 
-  const [email, setEmail] = React.useState('Enter your email');
-  const [password, setPassword] = React.useState('Enter a password');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [checked, setChecked] = React.useState(false);
+  const [userName, setUserName] = React.useState('');
+  const [blurEmail, setBlurEmail] = React.useState(false);
+  const [blurPassword, setBlurPassword] = React.useState(false);
+  const [blurLogin, setBlurLogin] = React.useState(false);
+
   const { login } = useTypeSelector(state => state.auth)
 
+  const classes = useStyles();
 
   const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
+    console.log(typeof validateEmail)
   };
 
   const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,29 +66,87 @@ const RegistrationForm: FC = () => {
     setChecked(event.target.checked);
   };
 
+  const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(event.target.value)
+  }
+
+  const handleBlurEmail = () => {
+    setBlurEmail(true)
+  }
+  const handleBlurPassword = () => {
+    setBlurPassword(true)
+  }
+  const handleBlurLogin = () => {
+    setBlurLogin(true)
+  }
+
+
+  const validateEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
+  const validatePassword = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
+  const validateLogin = /^[a-z]+([-_]?[a-z0-9]+){5,15}$/i;
+  const isValid = (regExp: RegExp, string: string): boolean => {
+    return regExp.test(string)
+  }
+  const isEmail = isValid(validateEmail, email);
+  const isPassword = isValid(validatePassword, password);
+  const isLogin = isValid(validateLogin, userName);
+
+  let isDisableSignIn = isEmail && isPassword && isLogin
+
+
+
+  // const isValidPassword = (password: string): boolean => {
+  //   return validatePassword
+  // }
 
   return (
-    <Box
+    <Box className={classes.root}
       component="form"
       sx={{
-        '& > :not(style)': { m: 1, width: '25ch' },
+        '& > :not(style)': { m: 3 },
       }}
       noValidate
       autoComplete="off"
     >
-      <TextField
-        id="outlined-email"
-        label="email"
-        value={email}
-        onChange={handleChangeEmail}
-      />
-      <TextField
-        id="outlined-password"
-        label="password"
-        value={password}
-        onChange={handleChangePassword}
-      />
-      <Typography>
+      <Typography
+        variant="h5"
+        className={classes.title}>
+        Please fill in the required information for registration
+      </Typography>
+      <div className={classes.wrapper}>
+        <TextField
+          className={classes.input}
+          id="outlined-email"
+          label="Enter email"
+          value={email}
+          onChange={handleChangeEmail}
+          onBlur={handleBlurEmail}
+        />
+        {(!isEmail && blurEmail) && <small>Enter a correct email</small>}
+      </div>
+      <div className={classes.wrapper}>
+        <TextField
+          className={classes.input}
+          id="outlined-password"
+          label="Enter a password"
+          value={password}
+          onChange={handleChangePassword}
+          onBlur={handleBlurPassword}
+        />
+        {(!isPassword && blurPassword) && <small>Enter a correct password</small>}
+      </div>
+      <div className={classes.wrapper}>
+        <TextField
+          className={classes.input}
+          id="outlined-password"
+          label="Enter a login"
+          value={userName}
+          onChange={handleChangeName}
+          onBlur={handleBlurLogin}
+        />
+        {(!isLogin && blurLogin) && <small>Enter a correct login</small>}
+      </div>
+      <Typography className={classes.checkbox}>
         <Checkbox
           checked={checked}
           onChange={handleChangeChecked}
@@ -55,9 +154,12 @@ const RegistrationForm: FC = () => {
         />
         Remember me
       </Typography>
-      <Button disabled={login} variant="contained">Sign-In</Button>
-      <Button disabled={!login} variant="contained">Exit</Button>
-
+      {
+        !login && <Button className={classes.button} disabled={!isDisableSignIn} variant="contained">Sign-In</Button>
+      }
+      {
+        login && <Button className={classes.button} variant="contained">Logout</Button>
+      }
     </Box>
   )
 }
