@@ -80,24 +80,19 @@ const RegistrationForm: FC = () => {
     setBlurLogin(true)
   }
 
-
   const validateEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
   const validatePassword = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
   const validateLogin = /^[a-z]+([-_]?[a-z0-9]+){5,15}$/i;
+
   const isValid = (regExp: RegExp, string: string): boolean => {
     return regExp.test(string)
   }
+
   const isEmail = isValid(validateEmail, email);
   const isPassword = isValid(validatePassword, password);
   const isLogin = isValid(validateLogin, userName);
 
   let isDisableSignIn = isEmail && isPassword && isLogin
-
-
-
-  // const isValidPassword = (password: string): boolean => {
-  //   return validatePassword
-  // }
 
   return (
     <Box className={classes.root}
@@ -138,7 +133,7 @@ const RegistrationForm: FC = () => {
       <div className={classes.wrapper}>
         <TextField
           className={classes.input}
-          id="outlined-password"
+          id="outlined-login"
           label="Enter a login"
           value={userName}
           onChange={handleChangeName}
