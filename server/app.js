@@ -21,7 +21,7 @@ app.use('/graphql', graphqlHTTP({
 }))
 
 const dbConnection = mongoose.connection;
-dbConnection.on('error', err => console.log(`Connection error: ${error}`));
+dbConnection.on('error', err => console.log(`Connection error: ${err}`));
 dbConnection.once('open', () => console.log('Connected to MongoDB'));
 
 app.listen(PORT, err => {

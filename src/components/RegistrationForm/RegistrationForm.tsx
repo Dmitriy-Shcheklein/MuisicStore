@@ -5,6 +5,9 @@ import TextField from '@mui/material/TextField';
 import { Button, Checkbox, Typography } from '@mui/material';
 import useTypeSelector from '../../hooks/usetypeSelector';
 import { makeStyles } from '@material-ui/styles';
+import { useMutation } from '@apollo/client';
+
+import { ADD_NEW_USER } from './mutation'
 
 const useStyles = makeStyles({
   root: {
@@ -39,6 +42,12 @@ const useStyles = makeStyles({
   }
 })
 
+interface IUser {
+  userName: string,
+  email: string,
+  password: string,
+}
+
 const RegistrationForm: FC = () => {
 
   const [email, setEmail] = React.useState('');
@@ -48,6 +57,13 @@ const RegistrationForm: FC = () => {
   const [blurEmail, setBlurEmail] = React.useState(false);
   const [blurPassword, setBlurPassword] = React.useState(false);
   const [blurLogin, setBlurLogin] = React.useState(false);
+
+  const [addUser, { error, data }] = useMutation<
+    { addUser: IUser },
+    { name: string, email: string, password: string }
+  >(ADD_NEW_USER, {
+    variables: { name: userName, email, password }
+  })
 
   const { login } = useTypeSelector(state => state.auth)
 
@@ -80,6 +96,13 @@ const RegistrationForm: FC = () => {
     setBlurLogin(true)
   }
 
+  const submittedForm = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log('Submited');
+    email && password && userName && addUser();
+    e.preventDefault();
+
+  }
+
   const validateEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
   const validatePassword = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
   const validateLogin = /^[a-z]+([-_]?[a-z0-9]+){5,15}$/i;
@@ -102,11 +125,18 @@ const RegistrationForm: FC = () => {
       }}
       noValidate
       autoComplete="off"
+      onSubmit={submittedForm}
     >
       <Typography
         variant="h5"
         className={classes.title}>
         Please fill in the required information for registration
+      </Typography>
+      <Typography
+        variant="h5"
+        className={classes.title}>
+        {error ? <p>Oh no! {error.message}</p> : null}
+        {data && data.addUser ? <p>Saved!</p> : null}
       </Typography>
       <div className={classes.wrapper}>
         <TextField
@@ -150,10 +180,18 @@ const RegistrationForm: FC = () => {
         Remember me
       </Typography>
       {
-        !login && <Button className={classes.button} disabled={!isDisableSignIn} variant="contained">Sign-In</Button>
+        !login && <Button
+          type="submit"
+          className={classes.button}
+          disabled={!isDisableSignIn}
+          variant="contained"
+        >Sign-In</Button>
       }
       {
-        login && <Button className={classes.button} variant="contained">Logout</Button>
+        login && <Button
+          className={classes.button}
+          variant="contained"
+        >Logout</Button>
       }
     </Box>
   )

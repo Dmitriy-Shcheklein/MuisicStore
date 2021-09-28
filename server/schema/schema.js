@@ -3,8 +3,7 @@ import * as graphql from 'graphql';
 import { Users } from '../models/users.js';
 
 const { GraphQLObjectType, GraphQLString,
-  GraphQLSchema, GraphQLID,
-  GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLBoolean } = graphql;
+  GraphQLSchema, GraphQLID, GraphQLNonNull, } = graphql;
 
 const UserType = new GraphQLObjectType({
   name: 'User',
@@ -12,7 +11,7 @@ const UserType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLNonNull(GraphQLString) },
     email: { type: GraphQLNonNull(GraphQLString) },
-    password: { type: GraphQLNonNull(GraphQLInt) },
+    password: { type: GraphQLNonNull(GraphQLString) },
   })
 })
 
@@ -39,7 +38,7 @@ const Mutation = new GraphQLObjectType({
       args: {
         name: { type: GraphQLNonNull(GraphQLString) },
         email: { type: GraphQLNonNull(GraphQLString) },
-        password: { type: GraphQLNonNull(GraphQLInt) },
+        password: { type: GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, { name, email, password }) {
         const user = new Users({
@@ -61,7 +60,6 @@ const Mutation = new GraphQLObjectType({
     }
   }
 })
-
 
 export const schema = new GraphQLSchema({
   query: Query,
