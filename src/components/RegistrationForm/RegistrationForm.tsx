@@ -1,15 +1,16 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, Checkbox, Typography } from '@mui/material';
 import useTypeSelector from '../../hooks/usetypeSelector';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 
 import { ADD_NEW_USER } from './mutation';
-import { CHECK_USER_NAME } from './querie'
+import { CHECK_USER_NAME, CHECK_USER_EMAIL } from './querie'
 import { useStyles } from './styles';
+import { useAuthActions } from '../../hooks/useActions';
 
 
 interface IUser {
@@ -20,33 +21,52 @@ interface IUser {
 
 const RegistrationForm: FC = () => {
 
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [checked, setChecked] = React.useState(false);
-  const [userName, setUserName] = React.useState('');
-  const [blurEmail, setBlurEmail] = React.useState(false);
-  const [blurPassword, setBlurPassword] = React.useState(false);
-  const [blurLogin, setBlurLogin] = React.useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [checked, setChecked] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [blurEmail, setBlurEmail] = useState(false);
+  const [blurPassword, setBlurPassword] = useState(false);
+  const [blurLogin, setBlurLogin] = useState(false);
+
+  const { login } = useTypeSelector(state => state.auth);
+  const { userLogin } = useAuthActions();
 
   const [addUser, { error, data }] = useMutation<
     { addUser: IUser },
     { name: string, email: string, password: string }
-  >(ADD_NEW_USER, {
-    variables: { name: userName, email, password },
-  });
+  >(ADD_NEW_USER,
+    {
+      variables: { name: userName, email, password },
+    });
 
-  const [checkUserName, { called, loading, data: dataUserName }] = useLazyQuery(
+  const [checkUserName, { loading: loadingLogin, data: dataUserName }] = useLazyQuery(
     CHECK_USER_NAME,
     { variables: { name: userName } }
+  );
+  const [checkUserEmail, { loading: loadingEmail, data: dataUserEmail }] = useLazyQuery(
+    CHECK_USER_EMAIL,
+    { variables: { email } }
   );
 
   useEffect(() => {
     if (userName.length > 5) {
       checkUserName();
     }
-  }, [userName])
-
-  const { login } = useTypeSelector(state => state.auth);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userName]);
+  useEffect(() => {
+    if (email.includes('@')) {
+      checkUserEmail();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [email]);
+  useEffect(() => {
+    if (data?.addUser) {
+      userLogin()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   const classes = useStyles();
 
@@ -88,7 +108,9 @@ const RegistrationForm: FC = () => {
   const isPassword = isValid(validatePassword, password);
   const isLogin = isValid(validateLogin, userName);
 
-  let isDisableSignIn = isEmail && isPassword && isLogin && !dataUserName?.checkUserName?.length
+  let isDisableSignIn = isEmail && isPassword &&
+    isLogin && !dataUserName?.checkUserName?.length &&
+    !dataUserEmail?.checkUserEmail?.length
 
   const submittedForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -113,13 +135,32 @@ const RegistrationForm: FC = () => {
       <div className={classes.wrapper}>
         <TextField
           className={classes.input}
+          id="outlined-login"
+          label="Enter a login"
+          value={userName}
+          onChange={handleChangeName}
+          onBlur={handleBlurLogin}
+        />
+        <div className={classes.validError}>
+          {(!isLogin && blurLogin) ? <small>Enter a correct login &nbsp;</small> : null}
+          {loadingLogin ? <small>Checking a login &nbsp;</small> : null}
+          {dataUserName?.checkUserName?.length ? <small>This login already exists &nbsp;</small> : null}
+        </div>
+      </div>
+      <div className={classes.wrapper}>
+        <TextField
+          className={classes.input}
           id="outlined-email"
           label="Enter email"
           value={email}
           onChange={handleChangeEmail}
           onBlur={handleBlurEmail}
         />
-        {(!isEmail && blurEmail) && <small>Enter a correct email</small>}
+        <div className={classes.validError}>
+          {(!isEmail && blurEmail) ? <small>Enter a correct email &nbsp;</small> : null}
+          {loadingEmail ? <small>Checking a email &nbsp;</small> : null}
+          {dataUserEmail?.checkUserEmail?.length ? <small>This email already exists &nbsp;</small> : null}
+        </div>
       </div>
       <div className={classes.wrapper}>
         <TextField
@@ -131,21 +172,8 @@ const RegistrationForm: FC = () => {
           onChange={handleChangePassword}
           onBlur={handleBlurPassword}
         />
-        {(!isPassword && blurPassword) && <small>Enter a correct password</small>}
-      </div>
-      <div className={classes.wrapper}>
-        <TextField
-          className={classes.input}
-          id="outlined-login"
-          label="Enter a login"
-          value={userName}
-          onChange={handleChangeName}
-          onBlur={handleBlurLogin}
-        />
-        <div>
-          {(!isLogin && blurLogin) && <small>Enter a correct login</small>}
-          {loading ? <small>Checking a login</small> : null}
-          {dataUserName?.checkUserName?.length && <small>This login already exists</small>}
+        <div className={classes.validError}>
+          {(!isPassword && blurPassword) && <small>Enter a correct password &nbsp;</small>}
         </div>
       </div>
       <div className={classes.wrapper}>

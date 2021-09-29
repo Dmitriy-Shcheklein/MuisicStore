@@ -35,6 +35,15 @@ const Query = new GraphQLObjectType({
       resolve(parent, { name }) {
         return Users.find({ name: { $regex: new RegExp("^" + name + "$") } })
       }
+    },
+    checkUserEmail: {
+      type: new GraphQLList(UserType),
+      args: {
+        email: { type: GraphQLString },
+      },
+      resolve(parent, { email }) {
+        return Users.find({ email: { $regex: new RegExp("^" + email + "$") } })
+      }
     }
   }
 });

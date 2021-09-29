@@ -7,3 +7,12 @@ export const CHECK_USER_NAME = gql`
     }
   }
 `;
+
+export const CHECK_USER_EMAIL = gql`
+  query checkUserEmail($email: String) {
+    checkUserEmail(email: $email) {
+      email
+    }
+  }
+`;
+

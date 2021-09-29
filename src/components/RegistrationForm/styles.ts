@@ -31,17 +31,17 @@ export const useStyles = makeStyles({
     marginBottom: '1.5rem',
     marginTop: '1.5rem',
     position: 'relative',
-    '& small': {
-      color: '#dc143c',
-      position: 'absolute',
-      top: '100%',
-      left: '1%'
-    }
   },
   danger: {
     color: '#dc143c',
   },
   primary: {
     color: '#3f50b5',
+  },
+  validError: {
+    color: '#dc143c',
+    position: 'absolute',
+    top: '100%',
+    left: '1%',
   }
 })
