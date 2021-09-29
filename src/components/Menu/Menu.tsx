@@ -59,6 +59,7 @@ export default function Menu() {
           <Typography variant="h6" className={classes.title}>
             <NavLink to='/' className={classes.link}>MusicStore</NavLink>
             <NavLink to='/albums' className={classes.link}>Albums</NavLink>
+            <NavLink to='/profile' className={classes.link}>My account</NavLink>
           </Typography>
 
           <LoginModal

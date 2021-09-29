@@ -1,11 +1,11 @@
-import { Redirect, Route, Switch } from "react-router";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Menu from '../Menu';
 import AlbumsListContainer from "../AlbumsList";
 import { makeStyles } from '@material-ui/styles';
 import CartContainer from "../Cart";
 import MainPage from "../MainPage";
 import RegistrationForm from "../RegistrationForm";
-
+import Profile from "../Profile";
 
 const useStyles = makeStyles({
   root: {
@@ -25,6 +25,7 @@ const App = () => {
         <Route path='/albums' component={AlbumsListContainer} />
         <Route path='/cart' component={CartContainer} />
         <Route path='/registration' component={RegistrationForm} />
+        <Route path='/profile' component={Profile} />
         <Redirect to="/" />
       </Switch>
     </div>

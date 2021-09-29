@@ -1,46 +1,16 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, Checkbox, Typography } from '@mui/material';
 import useTypeSelector from '../../hooks/usetypeSelector';
-import { makeStyles } from '@material-ui/styles';
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 
-import { ADD_NEW_USER } from './mutation'
+import { ADD_NEW_USER } from './mutation';
+import { CHECK_USER_NAME } from './querie'
+import { useStyles } from './styles';
 
-const useStyles = makeStyles({
-  root: {
-    width: '50%',
-    margin: '0 auto',
-    textAlign: 'center',
-    height: '100%'
-  },
-  title: {
-    width: '100%'
-  },
-  input: {
-    width: '100%',
-  },
-  checkbox: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  button: {
-    width: '50%',
-    margin: '0 auto',
-  },
-  wrapper: {
-    width: '100%',
-    position: 'relative',
-    '& small': {
-      color: '#dc143c',
-      position: 'absolute',
-      top: '100%',
-      left: '1%'
-    }
-  }
-})
 
 interface IUser {
   userName: string,
@@ -62,16 +32,26 @@ const RegistrationForm: FC = () => {
     { addUser: IUser },
     { name: string, email: string, password: string }
   >(ADD_NEW_USER, {
-    variables: { name: userName, email, password }
-  })
+    variables: { name: userName, email, password },
+  });
 
-  const { login } = useTypeSelector(state => state.auth)
+  const [checkUserName, { called, loading, data: dataUserName }] = useLazyQuery(
+    CHECK_USER_NAME,
+    { variables: { name: userName } }
+  );
+
+  useEffect(() => {
+    if (userName.length > 5) {
+      checkUserName();
+    }
+  }, [userName])
+
+  const { login } = useTypeSelector(state => state.auth);
 
   const classes = useStyles();
 
   const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-    console.log(typeof validateEmail)
   };
 
   const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,8 +62,8 @@ const RegistrationForm: FC = () => {
     setChecked(event.target.checked);
   };
 
-  const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(event.target.value)
+  const handleChangeName = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(event.target.value);
   }
 
   const handleBlurEmail = () => {
@@ -96,18 +76,11 @@ const RegistrationForm: FC = () => {
     setBlurLogin(true)
   }
 
-  const submittedForm = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('Submited');
-    email && password && userName && addUser();
-    e.preventDefault();
-
-  }
-
   const validateEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
   const validatePassword = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
-  const validateLogin = /^[a-z]+([-_]?[a-z0-9]+){5,15}$/i;
+  const validateLogin = /^[a-zA-Z](.[a-zA-Z0-9_-]*){5,}$/;
 
-  const isValid = (regExp: RegExp, string: string): boolean => {
+  const isValid = (regExp: any, string: string): boolean => {
     return regExp.test(string)
   }
 
@@ -115,29 +88,28 @@ const RegistrationForm: FC = () => {
   const isPassword = isValid(validatePassword, password);
   const isLogin = isValid(validateLogin, userName);
 
-  let isDisableSignIn = isEmail && isPassword && isLogin
+  let isDisableSignIn = isEmail && isPassword && isLogin && !dataUserName?.checkUserName?.length
+
+  const submittedForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    email && password && userName && addUser();
+  }
 
   return (
     <Box className={classes.root}
       component="form"
-      sx={{
-        '& > :not(style)': { m: 3 },
-      }}
       noValidate
       autoComplete="off"
-      onSubmit={submittedForm}
-    >
-      <Typography
-        variant="h5"
-        className={classes.title}>
-        Please fill in the required information for registration
-      </Typography>
-      <Typography
-        variant="h5"
-        className={classes.title}>
-        {error ? <p>Oh no! {error.message}</p> : null}
-        {data && data.addUser ? <p>Saved!</p> : null}
-      </Typography>
+      onSubmit={submittedForm}>
+      <div className={classes.wrapper}>
+        <Typography
+          variant="h5"
+          className={classes.title}>
+          Please fill in the required information for registration
+          {error ? <p className={classes.danger}>Oh no! Something went wrong, please try it again</p> : null}
+          {data && data.addUser ? <Redirect to='/profile' /> : null}
+        </Typography>
+      </div>
       <div className={classes.wrapper}>
         <TextField
           className={classes.input}
@@ -152,6 +124,7 @@ const RegistrationForm: FC = () => {
       <div className={classes.wrapper}>
         <TextField
           className={classes.input}
+          type="password"
           id="outlined-password"
           label="Enter a password"
           value={password}
@@ -169,16 +142,22 @@ const RegistrationForm: FC = () => {
           onChange={handleChangeName}
           onBlur={handleBlurLogin}
         />
-        {(!isLogin && blurLogin) && <small>Enter a correct login</small>}
+        <div>
+          {(!isLogin && blurLogin) && <small>Enter a correct login</small>}
+          {loading ? <small>Checking a login</small> : null}
+          {dataUserName?.checkUserName?.length && <small>This login already exists</small>}
+        </div>
       </div>
-      <Typography className={classes.checkbox}>
-        <Checkbox
-          checked={checked}
-          onChange={handleChangeChecked}
-          inputProps={{ 'aria-label': 'controlled' }}
-        />
-        Remember me
-      </Typography>
+      <div className={classes.wrapper}>
+        <Typography className={classes.checkbox}>
+          <Checkbox
+            checked={checked}
+            onChange={handleChangeChecked}
+            inputProps={{ 'aria-label': 'controlled' }}
+          />
+          Remember me
+        </Typography>
+      </div>
       {
         !login && <Button
           type="submit"

@@ -3,7 +3,7 @@ import * as graphql from 'graphql';
 import { Users } from '../models/users.js';
 
 const { GraphQLObjectType, GraphQLString,
-  GraphQLSchema, GraphQLID, GraphQLNonNull, } = graphql;
+  GraphQLSchema, GraphQLID, GraphQLNonNull, GraphQLList } = graphql;
 
 const UserType = new GraphQLObjectType({
   name: 'User',
@@ -27,8 +27,18 @@ const Query = new GraphQLObjectType({
         return Users.findById(id)
       }
     },
+    checkUserName: {
+      type: new GraphQLList(UserType),
+      args: {
+        name: { type: GraphQLString },
+      },
+      resolve(parent, { name }) {
+        return Users.find({ name: { $regex: new RegExp("^" + name + "$") } })
+      }
+    }
   }
 });
+
 
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
