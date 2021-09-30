@@ -62,7 +62,6 @@ const LoginModal: FC<LoginModalProps> = (props) => {
               onClick={handleClose}
               to='/registration' exact>Start here</NavLink>
           </Typography>
-
         </Box>
       </Modal>
     </div>

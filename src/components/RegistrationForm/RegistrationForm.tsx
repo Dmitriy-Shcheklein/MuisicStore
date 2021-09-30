@@ -1,17 +1,15 @@
 import { FC, useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, Checkbox, Typography } from '@mui/material';
-import useTypeSelector from '../../hooks/usetypeSelector';
 import { useLazyQuery, useMutation } from '@apollo/client';
 
 import { ADD_NEW_USER } from './mutation';
 import { CHECK_USER_NAME, CHECK_USER_EMAIL } from './querie'
 import { useStyles } from './styles';
 import { useAuthActions } from '../../hooks/useActions';
-
+import useTypeSelector from '../../hooks/usetypeSelector';
+import AfterRegModal from './AfterRegModal';
 
 interface IUser {
   userName: string,
@@ -23,14 +21,16 @@ const RegistrationForm: FC = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [checked, setChecked] = useState(false);
   const [userName, setUserName] = useState('');
+  const [checked, setChecked] = useState(false);
   const [blurEmail, setBlurEmail] = useState(false);
   const [blurPassword, setBlurPassword] = useState(false);
   const [blurLogin, setBlurLogin] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
 
   const { login } = useTypeSelector(state => state.auth);
-  const { userLogin } = useAuthActions();
+  const { userLogin, userLogout } = useAuthActions();
 
   const [addUser, { error, data }] = useMutation<
     { addUser: IUser },
@@ -63,12 +63,26 @@ const RegistrationForm: FC = () => {
   }, [email]);
   useEffect(() => {
     if (data?.addUser) {
-      userLogin()
+      userLogin();
+      clearForm();
+      setOpenModal(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   const classes = useStyles();
+
+  const clearForm = () => {
+    setEmail('');
+    setPassword('');
+    setUserName('');
+    setChecked(false);
+    setBlurEmail(false);
+    setBlurPassword(false);
+    setBlurLogin(false);
+  }
+
+  const handleCloseModal = () => setOpenModal(false);
 
   const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -78,23 +92,13 @@ const RegistrationForm: FC = () => {
     setPassword(event.target.value)
   };
 
-  const handleChangeChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
-
-  const handleChangeName = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
   }
 
-  const handleBlurEmail = () => {
-    setBlurEmail(true)
-  }
-  const handleBlurPassword = () => {
-    setBlurPassword(true)
-  }
-  const handleBlurLogin = () => {
-    setBlurLogin(true)
-  }
+  const handleChangeChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
 
   const validateEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
   const validatePassword = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
@@ -129,7 +133,10 @@ const RegistrationForm: FC = () => {
           className={classes.title}>
           Please fill in the required information for registration
           {error ? <p className={classes.danger}>Oh no! Something went wrong, please try it again</p> : null}
-          {data && data.addUser ? <Redirect to='/profile' /> : null}
+          {data && data.addUser ? <AfterRegModal
+            handleCloseModal={handleCloseModal}
+            openModal={openModal}
+          /> : null}
         </Typography>
       </div>
       <div className={classes.wrapper}>
@@ -139,7 +146,7 @@ const RegistrationForm: FC = () => {
           label="Enter a login"
           value={userName}
           onChange={handleChangeName}
-          onBlur={handleBlurLogin}
+          onBlur={() => setBlurLogin(true)}
         />
         <div className={classes.validError}>
           {(!isLogin && blurLogin) ? <small>Enter a correct login &nbsp;</small> : null}
@@ -154,7 +161,7 @@ const RegistrationForm: FC = () => {
           label="Enter email"
           value={email}
           onChange={handleChangeEmail}
-          onBlur={handleBlurEmail}
+          onBlur={() => setBlurEmail(true)}
         />
         <div className={classes.validError}>
           {(!isEmail && blurEmail) ? <small>Enter a correct email &nbsp;</small> : null}
@@ -170,7 +177,7 @@ const RegistrationForm: FC = () => {
           label="Enter a password"
           value={password}
           onChange={handleChangePassword}
-          onBlur={handleBlurPassword}
+          onBlur={() => setBlurPassword(true)}
         />
         <div className={classes.validError}>
           {(!isPassword && blurPassword) && <small>Enter a correct password &nbsp;</small>}
@@ -196,6 +203,7 @@ const RegistrationForm: FC = () => {
       }
       {
         login && <Button
+          onClick={() => userLogout()}
           className={classes.button}
           variant="contained"
         >Logout</Button>
