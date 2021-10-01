@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@mui/material/Modal';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { FC } from 'react';
 import { style, useStyles } from './styles'
 
@@ -14,23 +14,25 @@ interface LoginModalProps {
 }
 
 const LoginModal: FC<LoginModalProps> = (props) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const classes = useStyles()
 
-  const { login, userLogin, userLogout } = props;
+  const { login, userLogout } = props;
+
+  const [authForm, setAuthForm] = useState(false);
 
   const logout = () => {
     userLogout();
     handleClose()
   }
 
-  const signIn = () => {
-    userLogin();
+  useEffect(() => {
     handleClose();
-  }
+    setAuthForm(false)
+  }, [authForm])
 
   return (
     <div>
@@ -46,11 +48,12 @@ const LoginModal: FC<LoginModalProps> = (props) => {
         <Box sx={style}>
           <div className={classes.bntContainer}>
             <Button
-              onClick={signIn}
               disabled={login}
               variant="contained"
+              onClick={() => setAuthForm(true)}
               color="primary">Sign-In</Button>
-            <Button
+            {authForm ? <Redirect to='/auth' /> : null}
+            < Button
               onClick={logout}
               disabled={!login}
               variant="contained"
@@ -64,7 +67,7 @@ const LoginModal: FC<LoginModalProps> = (props) => {
           </Typography>
         </Box>
       </Modal>
-    </div>
+    </div >
   );
 }
 

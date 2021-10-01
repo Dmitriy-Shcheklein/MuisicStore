@@ -6,6 +6,7 @@ import CartContainer from "../Cart";
 import MainPage from "../MainPage";
 import RegistrationForm from "../RegistrationForm";
 import Profile from "../Profile";
+import AuthForm from "../AuthForm";
 
 const useStyles = makeStyles({
   root: {
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='/cart' component={CartContainer} />
         <Route path='/registration' component={RegistrationForm} />
         <Route path='/profile' component={Profile} />
+        <Route path='/auth' component={AuthForm} />
         <Redirect to="/" />
       </Switch>
     </div>

@@ -1,9 +1,7 @@
-import * as graphql from 'graphql';
+import { GraphQLObjectType, GraphQLString,
+  GraphQLSchema, GraphQLID, GraphQLNonNull, GraphQLList } from 'graphql';
 
 import { Users } from '../models/users.js';
-
-const { GraphQLObjectType, GraphQLString,
-  GraphQLSchema, GraphQLID, GraphQLNonNull, GraphQLList } = graphql;
 
 const UserType = new GraphQLObjectType({
   name: 'User',
@@ -24,7 +22,11 @@ const Query = new GraphQLObjectType({
         id: { type: GraphQLID },
       },
       resolve(parent, { id }) {
-        return Users.findById(id)
+        return Users.findById(id, error=> {
+          if(error) {
+            return error
+          }
+        })
       }
     },
     checkUserName: {

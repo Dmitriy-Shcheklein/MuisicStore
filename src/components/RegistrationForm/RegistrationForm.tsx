@@ -4,8 +4,8 @@ import TextField from '@mui/material/TextField';
 import { Button, Checkbox, Typography } from '@mui/material';
 import { useLazyQuery, useMutation } from '@apollo/client';
 
-import { ADD_NEW_USER } from './mutation';
-import { CHECK_USER_NAME, CHECK_USER_EMAIL } from './querie'
+import { ADD_NEW_USER } from '../../graphQL/mutations';
+import { CHECK_USER_NAME, CHECK_USER_EMAIL } from '../../graphQL/queries'
 import { useStyles } from './styles';
 import { useAuthActions } from '../../hooks/useActions';
 import useTypeSelector from '../../hooks/usetypeSelector';
@@ -28,36 +28,28 @@ const RegistrationForm: FC = () => {
   const [blurLogin, setBlurLogin] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
-
   const { login } = useTypeSelector(state => state.auth);
   const { userLogin, userLogout } = useAuthActions();
 
   const [addUser, { error, data }] = useMutation<
     { addUser: IUser },
     { name: string, email: string, password: string }
-  >(ADD_NEW_USER,
-    {
-      variables: { name: userName, email, password },
-    });
+  >(ADD_NEW_USER);
 
   const [checkUserName, { loading: loadingLogin, data: dataUserName }] = useLazyQuery(
-    CHECK_USER_NAME,
-    { variables: { name: userName } }
-  );
+    CHECK_USER_NAME);
   const [checkUserEmail, { loading: loadingEmail, data: dataUserEmail }] = useLazyQuery(
-    CHECK_USER_EMAIL,
-    { variables: { email } }
-  );
+    CHECK_USER_EMAIL);
 
   useEffect(() => {
     if (userName.length > 5) {
-      checkUserName();
+      checkUserName({ variables: { name: userName } });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userName]);
   useEffect(() => {
     if (email.includes('@')) {
-      checkUserEmail();
+      checkUserEmail({ variables: { email } });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email]);
@@ -118,7 +110,7 @@ const RegistrationForm: FC = () => {
 
   const submittedForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    email && password && userName && addUser();
+    email && password && userName && addUser({ variables: { name: userName, email, password }, });
   }
 
   return (
