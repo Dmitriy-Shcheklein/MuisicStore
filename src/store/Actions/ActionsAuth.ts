@@ -1,17 +1,16 @@
 import { AuthAction, AuthActionsTypes } from "../../types/authTypes";
 
 
-const userLogin = (): AuthAction => {
+const userLogin = (userName: string): AuthAction => {
   return ({
     type: AuthActionsTypes.USER_LOGIN,
-    payload: true,
+    payload: userName,
   })
 }
 
 const userLogout = (): AuthAction => {
   return ({
     type: AuthActionsTypes.USER_LOGOUT,
-    payload: false,
   })
 }
 

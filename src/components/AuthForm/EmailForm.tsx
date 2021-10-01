@@ -8,7 +8,6 @@ import { CHECK_USER_EMAIL, } from '../../graphQL/queries';
 import { Redirect } from 'react-router-dom';
 import { useAuthActions } from '../../hooks/useActions';
 
-
 const useStyles = makeStyles({
   root: {
     width: '50%',
@@ -48,7 +47,13 @@ const useStyles = makeStyles({
   },
 })
 
-const EmailForm: FC = () => {
+interface EmailFormProps {
+  userName: string;
+}
+
+const EmailForm: FC<EmailFormProps> = (props) => {
+
+  const { userName } = props
 
   const [email, setEmail] = useState('');
   const [isDisable, setIsDisable] = useState(true);
@@ -71,7 +76,9 @@ const EmailForm: FC = () => {
   }, [email]);
   useEffect(() => {
     if (data?.checkUserEmail?.length) {
-      setCorrectEmail(true)
+      setCorrectEmail(true);
+      userLogin(userName);
+      localStorage.setItem('userName', userName)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
@@ -84,9 +91,7 @@ const EmailForm: FC = () => {
     checkUserEmail({ variables: { email }, });
   }
 
-
   if (correctEmail) {
-    userLogin();
     return <Redirect to='albums' />
   }
 

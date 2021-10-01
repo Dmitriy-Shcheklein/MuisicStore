@@ -7,6 +7,8 @@ import MainPage from "../MainPage";
 import RegistrationForm from "../RegistrationForm";
 import Profile from "../Profile";
 import AuthForm from "../AuthForm";
+import { useEffect } from "react";
+import { useAuthActions } from "../../hooks/useActions";
 
 const useStyles = makeStyles({
   root: {
@@ -17,6 +19,18 @@ const useStyles = makeStyles({
 const App = () => {
 
   const classes = useStyles();
+
+  const { userLogin } = useAuthActions()
+
+  useEffect(() => {
+    if (localStorage.getItem('auth')) {
+      let name = localStorage.getItem('userName')
+      if (name) {
+        name.slice(1, -1);
+        userLogin(name);
+      }
+    }
+  }, [])
 
   return (
     <div className={classes.root}>

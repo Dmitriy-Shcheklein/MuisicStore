@@ -17,6 +17,7 @@ const LoginModal: FC<LoginModalProps> = (props) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [userName, setUserName] = useState('')
 
   const classes = useStyles()
 
@@ -26,19 +27,27 @@ const LoginModal: FC<LoginModalProps> = (props) => {
 
   const logout = () => {
     userLogout();
+    localStorage.clear();
     handleClose()
   }
 
   useEffect(() => {
     handleClose();
     setAuthForm(false)
-  }, [authForm])
+  }, [authForm]);
+
+  useEffect(() => {
+    const name = localStorage.getItem('userName');
+    if (name) {
+      setUserName(name)
+    }
+  }, [userName])
 
   return (
     <div>
       <Button
         color="inherit"
-        onClick={handleOpen}>{login ? 'Welcome' : 'SIGN-IN'}</Button>
+        onClick={handleOpen}>{login ? `Welcome ${userName ? userName : ''}` : 'SIGN-IN'}</Button>
       <Modal
         open={open}
         onClose={handleClose}

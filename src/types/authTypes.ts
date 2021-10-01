@@ -4,16 +4,15 @@ export enum AuthActionsTypes {
 }
 export interface AuthState {
   login: boolean;
+  userName: string | null,
 }
 
 export interface UserLogin {
   type: AuthActionsTypes.USER_LOGIN,
-  payload: boolean,
+  payload: string,
 }
 export interface UserLogout {
   type: AuthActionsTypes.USER_LOGOUT,
-  payload: boolean,
 }
-
 
 export type AuthAction = UserLogin | UserLogout;

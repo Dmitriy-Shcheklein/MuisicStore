@@ -53,7 +53,7 @@ const AuthForm: FC = () => {
   const [correctLogin, setCorrectLogin] = useState(false);
 
 
-  const [checkUserName, { error, loading, data, stopPolling }] = useLazyQuery(
+  const [checkUserName, { error, loading, data }] = useLazyQuery(
     CHECK_USER_NAME,
   );
 
@@ -68,9 +68,8 @@ const AuthForm: FC = () => {
   }, [userName]);
   useEffect(() => {
     if (data?.checkUserName?.length) {
-      setCorrectLogin(true)
+      setCorrectLogin(true);
     }
-    console.log("DATA", stopPolling, 'CORLOGIN', correctLogin)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
@@ -83,7 +82,7 @@ const AuthForm: FC = () => {
   }
 
   if (correctLogin) {
-    return <EmailForm />
+    return <EmailForm userName={userName} />
   }
 
   return (
@@ -111,7 +110,6 @@ const AuthForm: FC = () => {
         </div>
       </div>
       <Button
-        // type="submit"
         onClick={handleSearch}
         className={classes.button}
         disabled={isDisable}

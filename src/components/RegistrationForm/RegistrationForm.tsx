@@ -55,7 +55,7 @@ const RegistrationForm: FC = () => {
   }, [email]);
   useEffect(() => {
     if (data?.addUser) {
-      userLogin();
+      userLogin(userName);
       clearForm();
       setOpenModal(true);
     }
