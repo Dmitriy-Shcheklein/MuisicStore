@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import { NavLink, Redirect } from 'react-router-dom';
 import { FC } from 'react';
 import { style, useStyles } from './styles'
+import useTypeSelector from '../../hooks/usetypeSelector';
 
 interface LoginModalProps {
   login: boolean;
@@ -17,13 +18,15 @@ const LoginModal: FC<LoginModalProps> = (props) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [userName, setUserName] = useState('')
+  const [user, setUser] = useState('')
 
   const classes = useStyles()
 
   const { login, userLogout } = props;
 
   const [authForm, setAuthForm] = useState(false);
+
+  const { userName } = useTypeSelector(state => state.auth)
 
   const logout = () => {
     userLogout();
@@ -37,9 +40,8 @@ const LoginModal: FC<LoginModalProps> = (props) => {
   }, [authForm]);
 
   useEffect(() => {
-    const name = localStorage.getItem('userName');
-    if (name) {
-      setUserName(name)
+    if (userName) {
+      setUser(userName)
     }
   }, [userName])
 
@@ -47,7 +49,7 @@ const LoginModal: FC<LoginModalProps> = (props) => {
     <div>
       <Button
         color="inherit"
-        onClick={handleOpen}>{login ? `Welcome ${userName ? userName : ''}` : 'SIGN-IN'}</Button>
+        onClick={handleOpen}>{login ? `Welcome ${user ? user : ''}` : 'SIGN-IN'}</Button>
       <Modal
         open={open}
         onClose={handleClose}

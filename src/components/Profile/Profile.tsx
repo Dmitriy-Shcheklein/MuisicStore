@@ -12,7 +12,7 @@ const Profile = () => {
 
   return (
     <div>
-      PROFILE
+      SECRET PAGE
     </div>
   )
 }

@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from '@material-ui/styles'
 import { useLazyQuery } from '@apollo/client';
-import { CHECK_USER_EMAIL, } from '../../graphQL/queries';
+import { CHECK_USER_PASSWORD } from '../../graphQL/queries';
 import { Redirect } from 'react-router-dom';
 import { useAuthActions } from '../../hooks/useActions';
 
@@ -47,51 +47,51 @@ const useStyles = makeStyles({
   },
 })
 
-interface EmailFormProps {
+interface PassFormProps {
   userName: string;
 }
 
-const EmailForm: FC<EmailFormProps> = (props) => {
+const PasswordForm: FC<PassFormProps> = (props) => {
 
   const { userName } = props
 
-  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isDisable, setIsDisable] = useState(true);
-  const [correctEmail, setCorrectEmail] = useState(false);
+  const [correctPass, setCorrectPass] = useState(false);
   const { userLogin } = useAuthActions();
 
-  const [checkUserEmail, { error, loading, data }] = useLazyQuery(
-    CHECK_USER_EMAIL,
-    { variables: { email } }
+  const [checkUserPassword, { error, loading, data }] = useLazyQuery(
+    CHECK_USER_PASSWORD,
+    { variables: { password } }
   );
 
   const classes = useStyles();
 
   useEffect(() => {
-    if (email.includes('@')) {
+    if (password.length > 5) {
       setIsDisable(false)
     } else {
       setIsDisable(true);
     }
-  }, [email]);
+  }, [password]);
   useEffect(() => {
-    if (data?.checkUserEmail?.length) {
-      setCorrectEmail(true);
+    if (data?.checkUserPassword?.length) {
+      setCorrectPass(true);
       userLogin(userName);
       localStorage.setItem('userName', userName)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
-  const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+  const handleChangePass = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
   }
 
   const handleSearch = () => {
-    checkUserEmail({ variables: { email }, });
+    checkUserPassword({ variables: { password }, });
   }
 
-  if (correctEmail) {
+  if (correctPass) {
     return <Redirect to='albums' />
   }
 
@@ -102,20 +102,20 @@ const EmailForm: FC<EmailFormProps> = (props) => {
         <Typography
           variant="h5"
           className={classes.title}>
-          Please enter email
+          Please enter a password
           {error ? <p className={classes.danger}>Oh no! Something went wrong, please try it again</p> : null}
         </Typography>
       </div>
       <div className={classes.wrapper}>
         <TextField
           className={classes.input}
-          id="outlined-email"
-          label="Enter email"
-          value={email}
-          onChange={handleChangeEmail}
+          id="outlined-password"
+          label="Enter a password"
+          value={password}
+          onChange={handleChangePass}
         />
         <div className={classes.validError}>
-          {loading && <small>Checking email</small>}
+          {loading && <small>Checking password</small>}
         </div>
       </div>
       <Button
@@ -128,4 +128,4 @@ const EmailForm: FC<EmailFormProps> = (props) => {
   )
 }
 
-export default EmailForm;
+export default PasswordForm;

@@ -15,3 +15,11 @@ export const CHECK_USER_EMAIL = gql`
     }
   }
 `;
+
+export const CHECK_USER_PASSWORD = gql`
+  query checkUserPassword($password: String) {
+    checkUserPassword(password: $password) {
+      password
+    }
+  }
+`;

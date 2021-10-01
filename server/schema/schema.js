@@ -22,11 +22,7 @@ const Query = new GraphQLObjectType({
         id: { type: GraphQLID },
       },
       resolve(parent, { id }) {
-        return Users.findById(id, error=> {
-          if(error) {
-            return error
-          }
-        })
+        return Users.findById(id)
       }
     },
     checkUserName: {
@@ -46,10 +42,18 @@ const Query = new GraphQLObjectType({
       resolve(parent, { email }) {
         return Users.find({ email: { $regex: new RegExp("^" + email + "$") } })
       }
-    }
+    },
+    checkUserPassword: {
+      type: new GraphQLList(UserType),
+      args: {
+        password: {type: GraphQLString},
+      },
+      resolve(parent, {password}) {
+        return Users.find({password: { $regex: new RegExp("^" + password + "$") }})
+      }
+    },
   }
 });
-
 
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',

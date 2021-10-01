@@ -5,7 +5,7 @@ import { Button, Typography } from '@mui/material';
 import { makeStyles } from '@material-ui/styles'
 import { useLazyQuery } from '@apollo/client';
 import { CHECK_USER_NAME } from '../../graphQL/queries';
-import EmailForm from './EmailForm';
+import PasswordForm from './PasswordForm';
 
 const useStyles = makeStyles({
   root: {
@@ -82,7 +82,7 @@ const AuthForm: FC = () => {
   }
 
   if (correctLogin) {
-    return <EmailForm userName={userName} />
+    return <PasswordForm userName={userName} />
   }
 
   return (
