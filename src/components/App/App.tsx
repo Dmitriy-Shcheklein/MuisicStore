@@ -12,7 +12,8 @@ import { useAuthActions } from "../../hooks/useActions";
 
 const useStyles = makeStyles({
   root: {
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
+    minWidth: '280px',
   }
 })
 

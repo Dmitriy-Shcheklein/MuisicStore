@@ -7,11 +7,37 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { NavLink } from 'react-router-dom';
 import { Badge, Box, Container } from '@material-ui/core';
-import { withWidth, isWidthDown, isWidthUp } from '@material-ui/core';
 
-import { useStyles } from './styles';
 import useTypeSelector from '../../hooks/usetypeSelector';
 import LoginModal from '../LoginModal';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    position: 'sticky',
+    top: '0',
+    zIndex: 99,
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  cart: {
+    color: '#ffffff',
+  },
+  link: {
+    color: '#ffffff',
+    textDecoration: 'none',
+    margin: '0 10px',
+    '&:hover': {
+      color: '#848482'
+    }
+  },
+  box: {
+    display: 'flex',
+    alignItems: 'center'
+  }
+});
 
 const Menu = () => {
   const classes = useStyles();
@@ -21,7 +47,7 @@ const Menu = () => {
 
   return (
 
-    <AppBar className={classes.root}>
+    <AppBar >
       <Container className={classes.root}>
         <Box className={classes.box}>
           <Box>
@@ -55,7 +81,8 @@ const Menu = () => {
         </Box>
       </Container>
     </AppBar >
+
   );
 }
 
-export default withWidth()(Menu);
+export default Menu;

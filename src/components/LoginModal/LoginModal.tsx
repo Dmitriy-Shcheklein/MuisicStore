@@ -7,26 +7,21 @@ import { NavLink, Redirect } from 'react-router-dom';
 import { FC } from 'react';
 import { style, useStyles } from './styles'
 import useTypeSelector from '../../hooks/usetypeSelector';
+import { useAuthActions } from '../../hooks/useActions';
 
-interface LoginModalProps {
-  login: boolean;
-  userLogin: Function;
-  userLogout: Function;
-}
-
-const LoginModal: FC<LoginModalProps> = (props) => {
+const LoginModal: FC = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const [user, setUser] = useState('')
 
   const classes = useStyles()
 
-  const { login, userLogout } = props;
-
   const [authForm, setAuthForm] = useState(false);
 
-  const { userName } = useTypeSelector(state => state.auth)
+  const { userName, login } = useTypeSelector(state => state.auth)
+  const { userLogout } = useAuthActions()
 
   const logout = () => {
     userLogout();
