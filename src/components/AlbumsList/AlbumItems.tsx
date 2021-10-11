@@ -36,7 +36,6 @@ const AlbumItems: FC<CartItemProps> = (props) => {
       <h2>Musician: {userId}</h2>
       <p>Album name:<br /> {title}</p>
       <p><strong>Price: ${price}</strong></p>
-      <div></div>
       <Button
         variant="contained"
         color="primary"

@@ -22,7 +22,7 @@ const PasswordForm: FC<PassFormProps> = (props) => {
   const [validPass, setValidPass] = useState(false);
   const { userLogin } = useAuthActions();
 
-  const [checkUserPassword, { error, loading, data, called }] = useLazyQuery(
+  const [checkUserPassword, { error, loading, data }] = useLazyQuery(
     CHECK_USER_PASSWORD,
   );
 

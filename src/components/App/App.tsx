@@ -14,6 +14,7 @@ const useStyles = makeStyles({
   root: {
     fontFamily: 'Roboto',
     minWidth: '280px',
+    background: '#fafafa',
   }
 })
 
