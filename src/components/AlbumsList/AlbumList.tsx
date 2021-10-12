@@ -3,6 +3,7 @@ import AlbumItems from './AlbumItems';
 import PagesNav from '../Pages/PagesNav';
 import { makeStyles } from '@material-ui/core';
 import { Albums } from '../../types/albumsTypes';
+import useTypeSelector from '../../hooks/usetypeSelector';
 
 const useStyles = makeStyles({
   root: {
@@ -39,6 +40,8 @@ const AlbumList: FC<AlbumListProps> = (props) => {
 
   const { albums, addItemToCart, pages, setAlbumPage } = props;
 
+  const { productName } = useTypeSelector(state => state.findAndFilter)
+
   const classes = useStyles();
 
   return (
@@ -60,7 +63,7 @@ const AlbumList: FC<AlbumListProps> = (props) => {
       </ul>
       <ul className={classes.nav}>
         {
-          pages.map((page, idx) =>
+          !productName.length && pages.map((page, idx) =>
             <li
               key={idx}>
               <PagesNav
