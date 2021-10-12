@@ -25,7 +25,6 @@
     "@types/react-redux": "^7.1.18",
     "@types/react-router-dom": "^5.1.8",
     "axios": "^0.21.3",
-    "babel-jest": "^27.2.4",
     "graphql": "^15.6.0",
     "js-cookie": "^3.0.1",
     "react": "^17.0.2",
@@ -63,27 +62,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@types/enzyme": "^3.10.9",
-    "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/recompose": "^0.30.8",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
-    "jest": "^27.2.4"
-  },
-  "jest": {
-    "verbose": true,
-    "clearMocks": true,
-    "collectCoverage": true,
-    "setupFilesAfterEnv": [
-      "./setupTest.ts"
-    ],
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./__mocks__/fileMock.js",
-      "\\.(css|scss)$": "identity-obj-proxy"
-    }
-  }
+  "devDependencies": {}
 }
