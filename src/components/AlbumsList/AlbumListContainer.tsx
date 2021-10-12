@@ -1,13 +1,16 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import useTypeSelector from '../../hooks/usetypeSelector';
 import ErrorIndicator from '../ErrorBoundary/ErrorIndicator';
 import Spinner from '../Spinner';
 import { useActions } from '../../hooks/useActions';
 import AlbumList from './AlbumList';
+import Snack from '../Snack';
 
 const AlbumsListContainer: FC = () => {
 
-  const { albums, error, loading, limit, page } = useTypeSelector(state => state.albums);
+  const { albums, error, loading, limit, page, total } = useTypeSelector(state => state.albums);
+
+
 
   const { fetchAlbums, setAlbumPage, addItemToCart } = useActions();
 
@@ -18,6 +21,14 @@ const AlbumsListContainer: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
+  useEffect(() => {
+    if (total) {
+      setOpenSnack(true)
+    }
+  }, [total])
+
+  const [openSnack, setOpenSnack] = useState(false);
+
 
   if (loading) {
     return <Spinner />
@@ -26,12 +37,18 @@ const AlbumsListContainer: FC = () => {
     return <ErrorIndicator />
   }
   return (
-    <AlbumList
-      albums={albums}
-      addItemToCart={addItemToCart}
-      pages={pages}
-      setAlbumPage={setAlbumPage}
-    />
+    <>
+      <AlbumList
+        albums={albums}
+        addItemToCart={addItemToCart}
+        pages={pages}
+        setAlbumPage={setAlbumPage}
+      />
+      <Snack
+        open={openSnack}
+        onClose={() => setOpenSnack(false)}
+      />
+    </>
   )
 }
 

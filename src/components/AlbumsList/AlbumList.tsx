@@ -13,17 +13,19 @@ const useStyles = makeStyles({
       listStyleType: 'none'
     },
     '& ul': {
-      width: '30%',
       padding: '0',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'start'
-
     }
+  },
+  main: {
+    width: '30%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   nav: {
     display: 'flex',
-  }
+    flexDirection: 'row',
+  },
 })
 
 interface AlbumListProps {
@@ -33,7 +35,6 @@ interface AlbumListProps {
   pages: number[],
 }
 
-
 const AlbumList: FC<AlbumListProps> = (props) => {
 
   const { albums, addItemToCart, pages, setAlbumPage } = props;
@@ -42,10 +43,11 @@ const AlbumList: FC<AlbumListProps> = (props) => {
 
   return (
     <section className={classes.root}>
-      <ul>
+      <ul className={classes.main}>
         {
           albums.map(album =>
-            <li key={album.id}>
+            <li
+              key={album.id}>
               <AlbumItems
                 id={album.id}
                 userId={album.userId}

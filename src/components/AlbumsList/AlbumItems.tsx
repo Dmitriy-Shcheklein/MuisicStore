@@ -1,6 +1,7 @@
 import { makeStyles, Button } from '@material-ui/core';
 import { FC } from 'react';
 
+
 interface CartItemProps {
   userId: number,
   id: number,
@@ -11,14 +12,17 @@ interface CartItemProps {
 
 const useStyles = makeStyles({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     '& div': {
       width: '150px',
       height: '150px',
-      backgroundColor: 'blue'
+      backgroundColor: 'blue',
     }
   },
   button: {
-    width: '50%',
+    width: '10rem',
     fontSize: '0,75rem',
     marginTop: '20px',
 
