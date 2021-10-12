@@ -1,10 +1,10 @@
-import { FC, MouseEventHandler } from 'react';
+import { FC, SyntheticEvent } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
 interface SnackProps {
   open: boolean;
-  onClose: any;
+  onClose: (event: SyntheticEvent<HTMLElement>) => void
 }
 
 const Snack: FC<SnackProps> = (props) => {
