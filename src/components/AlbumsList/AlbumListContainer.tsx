@@ -10,16 +10,16 @@ const AlbumsListContainer: FC = () => {
 
   const { albums, error, loading, limit, page, total } = useTypeSelector(state => state.albums);
 
-
+  const { productName } = useTypeSelector(state => state.findAndFilter)
 
   const { fetchAlbums, setAlbumPage, addItemToCart } = useActions();
 
   const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
   useEffect(() => {
-    fetchAlbums(page, limit);
+    fetchAlbums(page, limit, productName);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page])
+  }, [page, productName])
 
   useEffect(() => {
     if (total) {
@@ -28,7 +28,6 @@ const AlbumsListContainer: FC = () => {
   }, [total])
 
   const [openSnack, setOpenSnack] = useState(false);
-
 
   if (loading) {
     return <Spinner />

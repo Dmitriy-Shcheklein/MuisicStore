@@ -12,6 +12,7 @@ import { withWidth, isWidthDown, isWidthUp } from '@material-ui/core';
 import { useStyles } from './styles';
 import useTypeSelector from '../../hooks/usetypeSelector';
 import LoginModal from '../LoginModal';
+import Searchfield from '../SearchField';
 
 const Menu = () => {
   const classes = useStyles();
@@ -38,6 +39,9 @@ const Menu = () => {
               <NavLink to='/profile' className={classes.link}>My account</NavLink>
             </Typography>
           </Box>
+        </Box>
+        <Box className={classes.box}>
+          <Searchfield />
         </Box>
         <Box className={classes.box}>
           <Box>

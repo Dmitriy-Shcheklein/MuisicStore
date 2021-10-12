@@ -6,7 +6,15 @@ import {
   CleanCart,
   FetchAlbumError,
   FetchAlbumLoading, FetchAlbumSuccess
-} from "../../types/albumsTypes"
+} from "../../types/albumsTypes";
+
+const filterProduct = (data: Albums[], productName: string) => {
+  return data.filter(item => {
+    return (item.title.toLowerCase().includes(productName.toLowerCase()) ||
+      item.userId.toString().toLowerCase().includes(productName.toLowerCase())
+    )
+  })
+}
 
 const dispatchLoading = (): FetchAlbumLoading => {
   return {
@@ -14,10 +22,10 @@ const dispatchLoading = (): FetchAlbumLoading => {
   }
 }
 
-const dispatchSuccess = (data: Albums[]): FetchAlbumSuccess => {
+const dispatchSuccess = (data: Albums[], productName: string): FetchAlbumSuccess => {
   return {
     type: AlbumActionsTypes.FETCH_ALBUM_SUCCESS,
-    payload: data,
+    payload: filterProduct(data, productName),
   }
 }
 
@@ -28,21 +36,26 @@ const dispatchError = (errorTxt: string): FetchAlbumError => {
   }
 }
 
-const fetchAlbums = (page = 1, limit = 4) => {
+const fetchAlbums = (page = 1, limit = 4, productName: string) => {
 
   const errorTxt = ' Что то пошло не так!'
 
   return async (dispatch: Dispatch<AlbumAction>) => {
     try {
       dispatch(dispatchLoading());
-      const response = await axios.get('https://jsonplaceholder.typicode.com/albums',
-        {
-          params: {
-            _page: page,
-            _limit: limit,
-          }
-        });
-      dispatch(dispatchSuccess(response.data))
+      let response;
+      if (productName.length) {
+        response = await axios.get('https://jsonplaceholder.typicode.com/albums')
+      } else {
+        response = await axios.get('https://jsonplaceholder.typicode.com/albums',
+          {
+            params: {
+              _page: page,
+              _limit: limit,
+            }
+          });
+      }
+      dispatch(dispatchSuccess(response.data, productName))
     } catch (error) {
       dispatch(dispatchError(errorTxt))
     }
@@ -82,7 +95,6 @@ const cleanCart = (): CleanCart => {
     type: AlbumActionsTypes.CLEAN_CART,
   }
 }
-
 
 export {
   fetchAlbums,
