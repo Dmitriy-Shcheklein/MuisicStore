@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import useTypeSelector from '../../hooks/usetypeSelector';
 import ErrorIndicator from '../ErrorBoundary/ErrorIndicator';
 import Spinner from '../Spinner';
@@ -15,20 +15,24 @@ const AlbumsListContainer: FC = () => {
 
   const { fetchAlbums, setAlbumPage, addItemToCart } = useActions();
 
-  const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const [openSnack, setOpenSnack] = useState(false);
+
+  const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   useEffect(() => {
     fetchAlbums(page, limit, productName);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, productName])
 
+  const firstUpdate = useRef(true);
+
   useEffect(() => {
-    if (total) {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+    } else if (total) {
       setOpenSnack(true)
     }
   }, [total])
-
-  const [openSnack, setOpenSnack] = useState(false);
 
   if (loading) {
     return <Spinner />
