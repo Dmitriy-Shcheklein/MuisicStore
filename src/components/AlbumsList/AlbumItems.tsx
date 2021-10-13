@@ -39,7 +39,7 @@ const AlbumItems: FC<CartItemProps> = (props) => {
 
   const { userId, title, price, addItemToCart } = props;
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = () => {
     addItemToCart();

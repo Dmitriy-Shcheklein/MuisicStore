@@ -1,12 +1,7 @@
-import { makeStyles } from "@material-ui/core";
 import { FC, MouseEventHandler } from "react"
 import { CartItems } from "../../types/albumsTypes";
 import CartRowTable from "./CartRowTable";
 import CartTableButtons from "./CartTableButtons";
-
-const useStyles = makeStyles({
-
-})
 
 interface CartTableProps {
   total: number | null,

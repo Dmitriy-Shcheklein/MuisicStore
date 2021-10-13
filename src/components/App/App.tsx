@@ -9,12 +9,15 @@ import Profile from "../Profile";
 import AuthForm from "../AuthForm";
 import { useEffect } from "react";
 import { useAuthActions } from "../../hooks/useActions";
+import { Container } from "./styled";
 
 const useStyles = makeStyles({
   root: {
     fontFamily: 'Roboto',
     minWidth: '280px',
+    width: '2000px',
     background: '#fafafa',
+    padding: '0',
   }
 })
 
@@ -36,7 +39,7 @@ const App = () => {
   }, [])
 
   return (
-    <div className={classes.root}>
+    <Container >
       <Menu />
       <Switch>
         <Route path='/' exact component={MainPage} />
@@ -47,7 +50,7 @@ const App = () => {
         <Route path='/auth' component={AuthForm} />
         <Redirect to="/" />
       </Switch>
-    </div>
+    </Container>
   );
 }
 

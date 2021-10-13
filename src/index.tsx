@@ -4,12 +4,13 @@ import { store } from './store/store';
 import { BrowserRouter } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { SnackbarProvider } from "notistack";
+import { Normalize } from 'styled-normalize'
 
 import App from './components/App';
 import ErrorBoundary from './components/ErrorBoundary';
 import { MyContext } from './Context/context';
 import { Service } from './service/Service';
-import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
+
 
 const service = new Service();
 
@@ -24,13 +25,12 @@ ReactDOM.render(
     <ErrorBoundary>
       <MyContext.Provider value={service}>
         <BrowserRouter>
-          <ScopedCssBaseline>
-            <ApolloProvider client={client}>
-              <SnackbarProvider maxSnack={3}>
-                <App />
-              </SnackbarProvider>
-            </ApolloProvider>
-          </ScopedCssBaseline>
+          <ApolloProvider client={client}>
+            <SnackbarProvider maxSnack={3}>
+              <Normalize />
+              <App />
+            </SnackbarProvider>
+          </ApolloProvider>
         </BrowserRouter>
       </MyContext.Provider>
     </ErrorBoundary>

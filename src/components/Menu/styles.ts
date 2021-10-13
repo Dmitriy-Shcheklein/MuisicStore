@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
+import styled from 'styled-components'
 
 export const useStyles = makeStyles({
   root: {
@@ -28,3 +29,16 @@ export const useStyles = makeStyles({
 });
 
 export default useStyles;
+
+export const Header = styled.header`
+  background-color: #3f51b5;
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  position: sticky;
+  top: 0;
+  zIndex: 99;
+  justify-content: space-between;
+  alignItems: center;
+  color: #ffffff;
+`;
