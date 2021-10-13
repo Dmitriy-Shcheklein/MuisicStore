@@ -20,6 +20,7 @@ const useStyles = makeStyles({
     border: '2px solid #3f51b5',
     borderRadius: '1rem',
     boxShadow: '0px 0px 1rem 0px rgba(53, 147, 220, 0.6)',
+    backgroundColor: '#accdea',
     '& div': {
       width: '150px',
       height: '150px',

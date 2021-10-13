@@ -8,17 +8,17 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { NavLink } from 'react-router-dom';
 import { Badge, Box, Container } from '@material-ui/core';
 import { withWidth, isWidthDown, isWidthUp } from '@material-ui/core';
-
 import { useStyles } from './styles';
 import useTypeSelector from '../../hooks/usetypeSelector';
 import LoginModal from '../LoginModal';
 import Searchfield from '../SearchField';
+import { CartItems } from '../../types/albumsTypes';
 
 const Menu = () => {
   const classes = useStyles();
-  const { cartList } = useTypeSelector(state => state.albums);
+  const { cartList } = useTypeSelector((state) => state.albums);
 
-  const count = cartList.reduce((accum, item) => accum + item.count, 0)
+  const count = cartList.reduce((accum: number, item: CartItems) => accum + item.count, 0)
 
   return (
 
