@@ -1,6 +1,6 @@
 import { makeStyles, Button } from '@material-ui/core';
 import { FC } from 'react';
-
+import { useSnackbar } from 'notistack';
 
 interface CartItemProps {
   userId: number,
@@ -39,6 +39,15 @@ const AlbumItems: FC<CartItemProps> = (props) => {
 
   const { userId, title, price, addItemToCart } = props;
 
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const handleClick = () => {
+    addItemToCart();
+    enqueueSnackbar('Product added to cart', {
+      variant: 'success',
+    })
+  }
+
   const classes = useStyles();
 
   return (
@@ -50,7 +59,7 @@ const AlbumItems: FC<CartItemProps> = (props) => {
         variant="contained"
         color="primary"
         className={classes.button}
-        onClick={addItemToCart}
+        onClick={handleClick}
         type='button'
       >Add to cart</Button>
     </div>

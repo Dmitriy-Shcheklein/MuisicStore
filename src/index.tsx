@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { BrowserRouter } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { SnackbarProvider } from "notistack";
 
 import App from './components/App';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -25,7 +26,9 @@ ReactDOM.render(
         <BrowserRouter>
           <ScopedCssBaseline>
             <ApolloProvider client={client}>
-              <App />
+              <SnackbarProvider maxSnack={3}>
+                <App />
+              </SnackbarProvider>
             </ApolloProvider>
           </ScopedCssBaseline>
         </BrowserRouter>
