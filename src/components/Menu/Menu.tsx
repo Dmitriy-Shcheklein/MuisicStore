@@ -1,62 +1,68 @@
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { NavLink } from 'react-router-dom';
-import { Badge, Box, Container } from '@material-ui/core';
-import { Header, useStyles } from './styles';
 import useTypeSelector from '../../hooks/usetypeSelector';
+
 import LoginModal from '../LoginModal';
 import Searchfield from '../SearchField';
-import { CartItems } from '../../types/albumsTypes';
+import BurgerMenu from '../BurgerMenu';
+
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { Badge } from '@material-ui/core';
+
+import { Container, Header, LinkGroup, StyledLink } from '../../styled/styled';
 
 const Menu = () => {
-  const classes = useStyles();
+
   const { cartList } = useTypeSelector((state) => state.albums);
 
-  const count = cartList.reduce((accum: number, item: CartItems) => accum + item.count, 0)
+  const count = cartList.reduce((accum, item) => accum + item.count, 0)
 
   return (
 
     <Header>
-      <Box className={classes.box}>
-        <Box>
-          <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="menu">
-              <MenuIcon />
-            </IconButton>
-          </Toolbar>
-        </Box>
-        <Box>
-          <Typography variant="h6" >
-            <NavLink to='/' className={classes.link}>MusicStore</NavLink>
-            <NavLink to='/albums' className={classes.link}>Albums</NavLink>
-            <NavLink to='/profile' className={classes.link}>My account</NavLink>
-          </Typography>
-        </Box>
-      </Box>
-      <Box className={classes.box}>
+
+      <Container>
+
+        <Container>
+          <BurgerMenu />
+        </Container>
+
+        <LinkGroup>
+          <StyledLink
+            size='1.5rem'
+            color="#ffffff"
+            to='/' >MusicStore</StyledLink>
+          <StyledLink
+            size='1.5rem'
+            color="#ffffff"
+            to='/albums' >Albums</StyledLink>
+          <StyledLink
+            size='1.5rem'
+            color="#ffffff"
+            to='/profile' >My account</StyledLink>
+        </LinkGroup>
+
+      </Container>
+
+      <Container >
         <Searchfield />
-      </Box>
-      <Box className={classes.box}>
-        <Box>
+      </Container>
+
+      <Container >
+
+        <Container>
           <LoginModal />
-        </Box>
-        <Box>
-          <NavLink to='/cart'>
-            <Button>
-              <Badge badgeContent={count} color="secondary">
-                <ShoppingCartIcon className={classes.cart} />
-              </Badge>
-            </Button>
-          </NavLink>
-        </Box>
-      </Box>
+        </Container>
+
+        <Container>
+          <StyledLink to='/cart'>
+            <Badge badgeContent={count} color="secondary">
+              <ShoppingCartIcon
+                style={{ color: '#ffffff', fontSize: '2rem' }} />
+            </Badge>
+          </StyledLink>
+        </Container>
+
+      </Container>
     </Header>
-
-
   );
 }
 

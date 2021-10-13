@@ -1,29 +1,18 @@
 import { Redirect, Route, Switch } from "react-router-dom";
+import { useEffect } from "react";
+import { useAuthActions } from "../../hooks/useActions";
+
 import Menu from '../Menu';
 import AlbumsListContainer from "../AlbumsList";
-import { makeStyles } from '@material-ui/styles';
 import CartContainer from "../Cart";
 import MainPage from "../MainPage";
 import RegistrationForm from "../RegistrationForm";
 import Profile from "../Profile";
 import AuthForm from "../AuthForm";
-import { useEffect } from "react";
-import { useAuthActions } from "../../hooks/useActions";
-import { Container } from "./styled";
 
-const useStyles = makeStyles({
-  root: {
-    fontFamily: 'Roboto',
-    minWidth: '280px',
-    width: '2000px',
-    background: '#fafafa',
-    padding: '0',
-  }
-})
+import { AppContainer } from "../../styled/styled";
 
 const App = () => {
-
-  const classes = useStyles();
 
   const { userLogin } = useAuthActions()
 
@@ -39,7 +28,7 @@ const App = () => {
   }, [])
 
   return (
-    <Container >
+    <AppContainer >
       <Menu />
       <Switch>
         <Route path='/' exact component={MainPage} />
@@ -50,7 +39,7 @@ const App = () => {
         <Route path='/auth' component={AuthForm} />
         <Redirect to="/" />
       </Switch>
-    </Container>
+    </AppContainer>
   );
 }
 
