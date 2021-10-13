@@ -5,6 +5,7 @@ import Spinner from '../Spinner';
 import { useActions } from '../../hooks/useActions';
 import AlbumList from './AlbumList';
 import Snack from '../Snack';
+import DontFindNotify from '../DontFindNotify';
 
 const AlbumsListContainer: FC = () => {
 
@@ -37,16 +38,21 @@ const AlbumsListContainer: FC = () => {
   }
   return (
     <>
-      <AlbumList
-        albums={albums}
-        addItemToCart={addItemToCart}
-        pages={pages}
-        setAlbumPage={setAlbumPage}
-      />
-      <Snack
-        open={openSnack}
-        onClose={() => setOpenSnack(false)}
-      />
+      {albums.length ?
+        (<>
+          <AlbumList
+            albums={albums}
+            addItemToCart={addItemToCart}
+            pages={pages}
+            setAlbumPage={setAlbumPage}
+          />
+          <Snack
+            open={openSnack}
+            onClose={() => setOpenSnack(false)}
+          />
+        </>) :
+        <DontFindNotify />
+      }
     </>
   )
 }

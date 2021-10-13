@@ -1,5 +1,5 @@
 export enum FindAndFilterTypes {
-  FIND_PRODUCT = 'FIND_PRODUCT'
+  FIND_PRODUCT = 'FIND_PRODUCT',
 };
 
 export interface FindAndFilterState {
