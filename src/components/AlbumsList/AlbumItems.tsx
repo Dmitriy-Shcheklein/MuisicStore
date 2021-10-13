@@ -12,9 +12,14 @@ interface CartItemProps {
 
 const useStyles = makeStyles({
   root: {
+    margin: '1rem 0',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    border: '2px solid #3f51b5',
+    borderRadius: '1rem',
+    boxShadow: '0px 0px 1rem 0px rgba(53, 147, 220, 0.6)',
     '& div': {
       width: '150px',
       height: '150px',
@@ -24,7 +29,7 @@ const useStyles = makeStyles({
   button: {
     width: '10rem',
     fontSize: '0,75rem',
-    marginTop: '20px',
+    margin: '1rem 0',
 
   }
 })

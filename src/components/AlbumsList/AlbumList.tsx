@@ -21,7 +21,10 @@ const useStyles = makeStyles({
     width: '30%',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    '& li': {
+      width: '100%',
+    }
   },
   nav: {
     display: 'flex',
