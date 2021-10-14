@@ -38,29 +38,29 @@ const dispatchError = (errorTxt: string): FetchAlbumError => {
 
 const fetchAlbums = (page = 1, limit = 4, productName: string) => {
 
-  const errorTxt = ' Что то пошло не так!'
+  const errorTxt = 'Something bad has happened'
 
-  return async (dispatch: Dispatch<AlbumAction>) => {
-    try {
-      dispatch(dispatchLoading());
-      setTimeout(async () => {
-        let response;
-        if (productName.length) {
-          response = await axios.get('https://jsonplaceholder.typicode.com/albums')
-        } else {
-          response = await axios.get('https://jsonplaceholder.typicode.com/albums',
-            {
-              params: {
-                _page: page,
-                _limit: limit,
-              }
-            });
-        }
-        dispatch(dispatchSuccess(response.data, productName))
-      }, 3000)
-    } catch (error) {
-      dispatch(dispatchError(errorTxt))
-    }
+  return (dispatch: Dispatch<AlbumAction>) => {
+
+    dispatch(dispatchLoading());
+    setTimeout(() => {
+
+      if (productName.length) {
+        axios.get('https://jsonplaceholder.typicode.com/albums')
+          .then(res => dispatch(dispatchSuccess(res.data, productName)))
+          .catch(error => dispatch(dispatchError(errorTxt)))
+      } else {
+        axios.get('https://jsonplaceholder.typicode.com/albums',
+          {
+            params: {
+              _page: page,
+              _limit: limit,
+            }
+          })
+          .then(res => dispatch(dispatchSuccess(res.data, productName)))
+          .catch(error => dispatch(dispatchError(errorTxt)));
+      }
+    }, 1500)
   }
 }
 
