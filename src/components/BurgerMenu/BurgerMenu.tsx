@@ -3,7 +3,7 @@ import { IconButton } from '@material-ui/core';
 
 const BurgerMenu = () => {
   return (
-    <IconButton edge="start" color="inherit" aria-label="menu">
+    <IconButton edge="start" color="inherit" aria-label="menu" style={{ display: 'none' }}>
       <MenuIcon />
     </IconButton>
   )
