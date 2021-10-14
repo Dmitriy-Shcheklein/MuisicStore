@@ -3,6 +3,7 @@
     "typeRoots": [
       "node_modules/@types"
     ],
+    "noImplicitAny": true,
     "target": "es5",
     "lib": [
       "dom",
