@@ -43,7 +43,7 @@ const AlbumItems: FC<CartItemProps> = (props) => {
 
   const handleClick = () => {
     addItemToCart();
-    enqueueSnackbar('Product added to cart', {
+    enqueueSnackbar(`${title.toUpperCase()} added to cart`, {
       variant: 'success',
     })
   }
