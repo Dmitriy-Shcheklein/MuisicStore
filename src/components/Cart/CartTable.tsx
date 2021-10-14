@@ -1,4 +1,5 @@
 import { FC, MouseEventHandler } from "react"
+import { Container, Table, TextField } from "../../styled/styled";
 import { CartItems } from "../../types/albumsTypes";
 import CartRowTable from "./CartRowTable";
 import CartTableButtons from "./CartTableButtons";
@@ -14,10 +15,10 @@ const CartTable: FC<CartTableProps> = (props) => {
   const { total, cartList, cleanCart } = props;
 
   return (
-    <>
-      <h2>Total price</h2>
-      <p>{total}</p>
-      <table>
+    <Container fldir='column'>
+      <TextField as='h2'>Total price</TextField>
+      <TextField as='p'>{total}$</TextField>
+      <Table>
         <thead>
           <tr>
             <th>Item</th>
@@ -32,13 +33,13 @@ const CartTable: FC<CartTableProps> = (props) => {
             cartList={cartList}
           />
         </tbody>
-      </table>
+      </Table>
       {
         (cartList.length) && (<CartTableButtons
           cleanCart={cleanCart}
         />)
       }
-    </>
+    </Container>
   )
 }
 

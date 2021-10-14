@@ -1,8 +1,8 @@
-
 import { makeStyles } from '@material-ui/core';
 import { Button } from '@mui/material';
-import { FC, MouseEventHandler } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import useTypeSelector from '../../hooks/usetypeSelector';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles({
   root: {
@@ -20,16 +20,25 @@ interface CartTableProps {
 
 const CartTableButtons: FC<CartTableProps> = (props) => {
 
-  const { login } = useTypeSelector(state => state.auth)
+  const { login } = useTypeSelector(state => state.auth);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const { cleanCart } = props;
+
+  const cleaningCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    cleanCart(e);
+    enqueueSnackbar(`The cart is cleared`, {
+      variant: 'error'
+    })
+  }
 
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Button
-        onClick={cleanCart}
+        onClick={cleaningCart}
         variant='contained'
         color='warning'
         type='button'
