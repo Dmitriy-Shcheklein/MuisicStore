@@ -43,19 +43,21 @@ const fetchAlbums = (page = 1, limit = 4, productName: string) => {
   return async (dispatch: Dispatch<AlbumAction>) => {
     try {
       dispatch(dispatchLoading());
-      let response;
-      if (productName.length) {
-        response = await axios.get('https://jsonplaceholder.typicode.com/albums')
-      } else {
-        response = await axios.get('https://jsonplaceholder.typicode.com/albums',
-          {
-            params: {
-              _page: page,
-              _limit: limit,
-            }
-          });
-      }
-      dispatch(dispatchSuccess(response.data, productName))
+      setTimeout(async () => {
+        let response;
+        if (productName.length) {
+          response = await axios.get('https://jsonplaceholder.typicode.com/albums')
+        } else {
+          response = await axios.get('https://jsonplaceholder.typicode.com/albums',
+            {
+              params: {
+                _page: page,
+                _limit: limit,
+              }
+            });
+        }
+        dispatch(dispatchSuccess(response.data, productName))
+      }, 3000)
     } catch (error) {
       dispatch(dispatchError(errorTxt))
     }
