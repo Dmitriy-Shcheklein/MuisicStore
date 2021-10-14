@@ -1,4 +1,4 @@
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthActions } from "../../hooks/useActions";
 
@@ -43,4 +43,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default withRouter(App);
