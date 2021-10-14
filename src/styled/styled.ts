@@ -132,3 +132,21 @@ export const TextField = styled.p.attrs<TextFieldProps>(
   font-family: Roboto;
   text-align: center;
 `;
+
+export const Table = styled.table`
+  font-size: 2rem;
+  border: 2px solid #3f51b5;
+  cols: 5;
+  cellpadding: 0.5rem;
+  align: center;
+  border-collapse: collapse;
+  margin: 1rem;
+  box-shadow: 0px 0px 3rem 0px rgba(74, 158, 222, 0.2);
+
+  th, td {
+    border: 2px solid #3f51b5;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+  }
+`;
