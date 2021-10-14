@@ -38,8 +38,6 @@ const dispatchError = (errorTxt: string): FetchAlbumError => {
 
 const fetchAlbums = (page = 1, limit = 4, productName: string) => {
 
-  const errorTxt = 'Something bad has happened'
-
   return (dispatch: Dispatch<AlbumAction>) => {
 
     dispatch(dispatchLoading());
@@ -48,7 +46,7 @@ const fetchAlbums = (page = 1, limit = 4, productName: string) => {
       if (productName.length) {
         axios.get('https://jsonplaceholder.typicode.com/albums')
           .then(res => dispatch(dispatchSuccess(res.data, productName)))
-          .catch(error => dispatch(dispatchError(errorTxt)))
+          .catch(error => dispatch(dispatchError(error)))
       } else {
         axios.get('https://jsonplaceholder.typicode.com/albums',
           {
@@ -58,7 +56,7 @@ const fetchAlbums = (page = 1, limit = 4, productName: string) => {
             }
           })
           .then(res => dispatch(dispatchSuccess(res.data, productName)))
-          .catch(error => dispatch(dispatchError(errorTxt)));
+          .catch(error => dispatch(dispatchError(error)));
       }
     }, 1500)
   }
