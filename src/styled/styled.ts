@@ -14,19 +14,22 @@ export const AppContainer = styled.div`
 
 interface ContainerProps {
   display?: string;
-  alItems?: string;
-  jusContent?: string;
+  alitems?: string;
+  juscontent?: string;
+  fldir?: string;
 }
 export const Container = styled.div.attrs<ContainerProps>(
   props => ({
     display: props.display || 'flex',
-    alItems: props.alItems || 'center',
-    jusContent: props.jusContent || 'space-around',
+    alitems: props.alitems || 'center',
+    juscontent: props.juscontent || 'space-around',
+    fldir: props.fldir || 'row',
   })) <ContainerProps>`
   padding: 0 0.5rem;
   display: ${props => props.display};
-  align-items: ${props => props.alItems};
-  justify-content: ${props => props.jusContent}
+  align-items: ${props => props.alitems};
+  justify-content: ${props => props.juscontent};
+  flex-direction: ${props => props.fldir}
 `;
 
 export const Header = styled.header`
@@ -115,14 +118,17 @@ export const ModalContainer = styled.div`
 interface TextFieldProps {
   size?: string;
   transform?: string;
+  fontw?: string;
 }
 export const TextField = styled.p.attrs<TextFieldProps>(
   props => ({
     size: props.size || '1rem',
     transform: props.transform || '',
+    fontw: props.fontw || 'normal'
   })) <TextFieldProps>`
   font-size: ${props => props.size};
   text-transform: ${props => props.transform};
+  font-weight: ${props => props.fontw};
   font-family: Roboto;
   text-align: center;
 `;
