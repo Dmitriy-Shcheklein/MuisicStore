@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const AppContainer = styled.div`
   font-family: Roboto;
   font-size: 10px;
-  max-width: 2000px;
+  max-width: 1800px;
   min-height: 100vh;
   background-color: #fafafa;
   padding: 0;
