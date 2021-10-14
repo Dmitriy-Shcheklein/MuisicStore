@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { useLocation, withRouter } from 'react-router-dom';
 import useTypeSelector from '../../hooks/usetypeSelector';
 
 import LoginModal from '../LoginModal';
@@ -9,11 +11,19 @@ import { Badge } from '@material-ui/core';
 
 import { Container, Header, LinkGroup, StyledLink } from '../../styled/styled';
 
+
 const Menu = () => {
+
+  const [showSearch, setShowSearch] = useState(false);
+  const location = useLocation()
 
   const { cartList } = useTypeSelector((state) => state.albums);
 
-  const count = cartList.reduce((accum, item) => accum + item.count, 0)
+  const count = cartList.reduce((accum, item) => accum + item.count, 0);
+
+  useEffect(() => {
+    location.pathname.includes('/albums') ? setShowSearch(true) : setShowSearch(false);
+  }, [location])
 
   return (
 
@@ -42,8 +52,9 @@ const Menu = () => {
 
       </Container>
 
+
       <Container >
-        <Searchfield />
+        {showSearch && <Searchfield />}
       </Container>
 
       <Container >
@@ -66,4 +77,4 @@ const Menu = () => {
   );
 }
 
-export default Menu;
+export default withRouter(Menu);
