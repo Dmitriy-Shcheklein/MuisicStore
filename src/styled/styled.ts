@@ -150,3 +150,10 @@ export const Table = styled.table`
     text-transform: uppercase;
   }
 `;
+
+export const Form = styled.form`
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  height: 100%;
+`;

@@ -1,15 +1,17 @@
 import { FC, useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { Button, Checkbox, Typography } from '@mui/material';
-import { useLazyQuery, useMutation } from '@apollo/client';
-
-import { ADD_NEW_USER } from '../../graphQL/mutations';
-import { CHECK_USER_NAME, CHECK_USER_EMAIL } from '../../graphQL/queries'
-import { useStyles } from './styles';
 import { useAuthActions } from '../../hooks/useActions';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { ADD_NEW_USER } from '../../graphQL/mutations';
+import { CHECK_USER_NAME, CHECK_USER_EMAIL } from '../../graphQL/queries';
 import useTypeSelector from '../../hooks/usetypeSelector';
+
 import AfterRegModal from './AfterRegModal';
+
+import TextField from '@mui/material/TextField';
+import { Button, Checkbox } from '@mui/material';
+import { Container, Form, TextField as TxtField } from '../../styled/styled';
+
+import { useStyles } from './styles';
 
 interface IUser {
   userName: string,
@@ -114,93 +116,90 @@ const RegistrationForm: FC = () => {
   }
 
   return (
-    <Box className={classes.root}
-      component="form"
-      noValidate
-      autoComplete="off"
-      onSubmit={submittedForm}>
-      <div className={classes.wrapper}>
-        <Typography
-          variant="h5"
-          className={classes.title}>
-          Please fill in the required information for registration
-          {error ? <p className={classes.danger}>Oh no! Something went wrong, please try it again</p> : null}
-          {data && data.addUser ? <AfterRegModal
-            handleCloseModal={handleCloseModal}
-            openModal={openModal}
-          /> : null}
-        </Typography>
-      </div>
-      <div className={classes.wrapper}>
-        <TextField
-          className={classes.input}
-          id="outlined-login"
-          label="Enter a login"
-          value={userName}
-          onChange={handleChangeName}
-          onBlur={() => setBlurLogin(true)}
-        />
-        <div className={classes.validError}>
-          {(!isLogin && blurLogin) ? <small>Enter a correct login &nbsp;</small> : null}
-          {loadingLogin ? <small>Checking a login &nbsp;</small> : null}
-          {dataUserName?.checkUserName?.length ? <small>This login already exists &nbsp;</small> : null}
+    <Container>
+      <Form
+        autoComplete="off"
+        onSubmit={submittedForm}>
+        <div className={classes.wrapper}>
+          <TxtField as='h2' size='2rem'>
+            Please fill in the required information for registration
+            {error ? <p className={classes.danger}>Oh no! Something went wrong, please try it again</p> : null}
+            {data && data.addUser ? <AfterRegModal
+              handleCloseModal={handleCloseModal}
+              openModal={openModal}
+            /> : null}
+          </TxtField>
         </div>
-      </div>
-      <div className={classes.wrapper}>
-        <TextField
-          className={classes.input}
-          id="outlined-email"
-          label="Enter email"
-          value={email}
-          onChange={handleChangeEmail}
-          onBlur={() => setBlurEmail(true)}
-        />
-        <div className={classes.validError}>
-          {(!isEmail && blurEmail) ? <small>Enter a correct email &nbsp;</small> : null}
-          {loadingEmail ? <small>Checking a email &nbsp;</small> : null}
-          {dataUserEmail?.checkUserEmail?.length ? <small>This email already exists &nbsp;</small> : null}
+        <div className={classes.wrapper}>
+          <TextField
+            className={classes.input}
+            id="outlined-login"
+            label="Enter a login"
+            value={userName}
+            onChange={handleChangeName}
+            onBlur={() => setBlurLogin(true)}
+          />
+          <div className={classes.validError}>
+            {(!isLogin && blurLogin) ? <small>Enter a correct login &nbsp;</small> : null}
+            {loadingLogin ? <small>Checking a login &nbsp;</small> : null}
+            {dataUserName?.checkUserName?.length ? <small>This login already exists &nbsp;</small> : null}
+          </div>
         </div>
-      </div>
-      <div className={classes.wrapper}>
-        <TextField
-          className={classes.input}
-          type="password"
-          id="outlined-password"
-          label="Enter a password"
-          value={password}
-          onChange={handleChangePassword}
-          onBlur={() => setBlurPassword(true)}
-        />
-        <div className={classes.validError}>
-          {(!isPassword && blurPassword) && <small>Enter a correct password &nbsp;</small>}
+        <div className={classes.wrapper}>
+          <TextField
+            className={classes.input}
+            id="outlined-email"
+            label="Enter email"
+            value={email}
+            onChange={handleChangeEmail}
+            onBlur={() => setBlurEmail(true)}
+          />
+          <div className={classes.validError}>
+            {(!isEmail && blurEmail) ? <small>Enter a correct email &nbsp;</small> : null}
+            {loadingEmail ? <small>Checking a email &nbsp;</small> : null}
+            {dataUserEmail?.checkUserEmail?.length ? <small>This email already exists &nbsp;</small> : null}
+          </div>
         </div>
-      </div>
-      <div className={classes.wrapper}>
-        <Typography className={classes.checkbox}>
+        <div className={classes.wrapper}>
+          <TextField
+            className={classes.input}
+            type="password"
+            id="outlined-password"
+            label="Enter a password"
+            value={password}
+            onChange={handleChangePassword}
+            onBlur={() => setBlurPassword(true)}
+          />
+          <div className={classes.validError}>
+            {(!isPassword && blurPassword) && <small>Enter a correct password &nbsp;</small>}
+          </div>
+        </div>
+
+        <Container juscontent='start' style={{ fontSize: '1rem' }}>
           <Checkbox
             checked={checked}
             onChange={handleChangeChecked}
-            inputProps={{ 'aria-label': 'controlled' }}
           />
           Remember me
-        </Typography>
-      </div>
-      {
-        !login && <Button
-          type="submit"
-          className={classes.button}
-          disabled={!isDisableSignIn}
-          variant="contained"
-        >Sign-In</Button>
-      }
-      {
-        login && <Button
-          onClick={() => userLogout()}
-          className={classes.button}
-          variant="contained"
-        >Logout</Button>
-      }
-    </Box>
+        </Container>
+
+        {
+          !login && <Button
+            type="submit"
+            className={classes.button}
+            disabled={!isDisableSignIn}
+            variant="contained"
+          >Sign-In</Button>
+        }
+        {
+          login && <Button
+            onClick={() => userLogout()}
+            className={classes.button}
+            variant="contained"
+          >Logout</Button>
+        }
+      </Form>
+    </Container>
   )
 }
 
