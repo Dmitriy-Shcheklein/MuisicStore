@@ -6,10 +6,10 @@ import { CHECK_USER_NAME, CHECK_USER_EMAIL } from '../../graphQL/queries';
 import useTypeSelector from '../../hooks/usetypeSelector';
 
 import AfterRegModal from './AfterRegModal';
+import Input from '../Input';
 
-import TextField from '@mui/material/TextField';
 import { Button, Checkbox } from '@mui/material';
-import { Container, Form, TextField as TxtField } from '../../styled/styled';
+import * as S from '../../styled/styled';
 
 import { useStyles } from './styles';
 
@@ -26,8 +26,11 @@ const RegistrationForm: FC = () => {
   const [userName, setUserName] = useState('');
   const [checked, setChecked] = useState(false);
   const [blurEmail, setBlurEmail] = useState(false);
+  const [focusEmail, setFocusEmail] = useState(false);
   const [blurPassword, setBlurPassword] = useState(false);
+  const [focusPassword, setFocusPassword] = useState(false);
   const [blurLogin, setBlurLogin] = useState(false);
+  const [focusLogin, setFocusLogin] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
   const { login } = useTypeSelector(state => state.auth);
@@ -94,20 +97,57 @@ const RegistrationForm: FC = () => {
     setChecked(event.target.checked);
   };
 
-  const validateEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-  const validatePassword = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
-  const validateLogin = /^[a-zA-Z](.[a-zA-Z0-9_-]*){5,}$/;
+  const onFocus = (inputName: string) => {
+    switch (inputName) {
+      case 'login':
+        setBlurLogin(false);
+        setFocusLogin(true);
+        break;
+      case 'email':
+        setBlurEmail(false);
+        setFocusEmail(true);
+        break;
+      case 'password':
+        setBlurPassword(false);
+        setFocusPassword(true);
+        break;
+      default:
+        return
+    }
+  };
 
-  const isValid = (regExp: any, string: string): boolean => {
-    return regExp.test(string)
+  const onBlur = (inputName: string) => {
+    switch (inputName) {
+      case 'login':
+        setFocusLogin(false);
+        setBlurLogin(true);
+        break;
+      case 'email':
+        setFocusEmail(false);
+        setBlurEmail(true);
+        break;
+      case 'password':
+        setFocusPassword(false);
+        setBlurPassword(true);
+        break;
+      default:
+        return
+    }
   }
 
-  const isEmail = isValid(validateEmail, email);
-  const isPassword = isValid(validatePassword, password);
-  const isLogin = isValid(validateLogin, userName);
+  // const validateEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
+  // const validatePassword = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
+  // const validateLogin = /^[a-zA-Z](.[a-zA-Z0-9_-]*){5,}$/;
 
-  let isDisableSignIn = isEmail && isPassword &&
-    isLogin && !dataUserName?.checkUserName?.length &&
+  // const isValid = (regExp: any, string: string): boolean => {
+  //   return regExp.test(string)
+  // }
+
+
+  // const isPassword = isValid(validatePassword, password);
+  // const isLogin = isValid(validateLogin, userName);
+
+  let isDisableSignIn = !dataUserName?.checkUserName?.length &&
     !dataUserEmail?.checkUserEmail?.length
 
   const submittedForm = (e: React.FormEvent<HTMLFormElement>) => {
@@ -116,72 +156,61 @@ const RegistrationForm: FC = () => {
   }
 
   return (
-    <Container>
-      <Form
+    <S.Container>
+      <S.Form
         autoComplete="off"
         onSubmit={submittedForm}>
         <div className={classes.wrapper}>
-          <TxtField as='h2' size='2rem'>
+          <S.TextField as='h2' size='2rem'>
             Please fill in the required information for registration
-            {error ? <p className={classes.danger}>Oh no! Something went wrong, please try it again</p> : null}
+            {error ? <S.TextField as='p'
+              className={classes.danger}>
+              Oh no! Something went wrong, please try it again</S.TextField> : null}
             {data && data.addUser ? <AfterRegModal
               handleCloseModal={handleCloseModal}
               openModal={openModal}
             /> : null}
-          </TxtField>
+          </S.TextField>
         </div>
-        <div className={classes.wrapper}>
-          <TextField
-            className={classes.input}
-            id="outlined-login"
-            label="Enter a login"
-            value={userName}
-            onChange={handleChangeName}
-            onBlur={() => setBlurLogin(true)}
-          />
-          <div className={classes.validError}>
-            {(!isLogin && blurLogin) ? <small>Enter a correct login &nbsp;</small> : null}
-            {loadingLogin ? <small>Checking a login &nbsp;</small> : null}
-            {dataUserName?.checkUserName?.length ? <small>This login already exists &nbsp;</small> : null}
-          </div>
-        </div>
-        <div className={classes.wrapper}>
-          <TextField
-            className={classes.input}
-            id="outlined-email"
-            label="Enter email"
-            value={email}
-            onChange={handleChangeEmail}
-            onBlur={() => setBlurEmail(true)}
-          />
-          <div className={classes.validError}>
-            {(!isEmail && blurEmail) ? <small>Enter a correct email &nbsp;</small> : null}
-            {loadingEmail ? <small>Checking a email &nbsp;</small> : null}
-            {dataUserEmail?.checkUserEmail?.length ? <small>This email already exists &nbsp;</small> : null}
-          </div>
-        </div>
-        <div className={classes.wrapper}>
-          <TextField
-            className={classes.input}
-            type="password"
-            id="outlined-password"
-            label="Enter a password"
-            value={password}
-            onChange={handleChangePassword}
-            onBlur={() => setBlurPassword(true)}
-          />
-          <div className={classes.validError}>
-            {(!isPassword && blurPassword) && <small>Enter a correct password &nbsp;</small>}
-          </div>
-        </div>
-
-        <Container juscontent='start' style={{ fontSize: '1rem' }}>
+        <Input
+          label='Enter a login'
+          value={userName}
+          onChange={handleChangeName}
+          onFocus={() => onFocus('login')}
+          onBlur={() => onBlur('login')}
+          validateRegExp={/^[a-zA-Z](.[a-zA-Z0-9_-]*){5,}$/}
+          isError={blurLogin && !!userName && !focusLogin} message={'Enter a correct login'}
+          isMessage2={!!loadingLogin} message2={'Checking a login'}
+          isMessage3={dataUserName?.checkUserName[0]?.name === userName} message3={'This login already exists'}
+        />
+        <Input
+          label='Enter email'
+          value={email}
+          onChange={handleChangeEmail}
+          onFocus={() => onFocus('email')}
+          onBlur={() => onBlur('email')}
+          validateRegExp={/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/}
+          isError={blurEmail && !!email && !focusEmail} message={'Enter a correct email'}
+          isMessage2={!!loadingEmail} message2={'Checking a email'}
+          isMessage3={dataUserEmail?.checkUserEmail[0]?.email === email} message3={'This email already exists'}
+        />
+        <Input
+          label='Enter a password'
+          value={password}
+          onChange={handleChangePassword}
+          onFocus={() => onFocus('password')}
+          onBlur={() => onBlur('password')}
+          type='password'
+          validateRegExp={/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g}
+          isError={blurPassword && !focusPassword && !!password} message={'Enter a correct password'}
+        />
+        <S.Container juscontent='start' style={{ fontSize: '1rem' }}>
           <Checkbox
             checked={checked}
             onChange={handleChangeChecked}
           />
           Remember me
-        </Container>
+        </S.Container>
 
         {
           !login && <Button
@@ -198,8 +227,8 @@ const RegistrationForm: FC = () => {
             variant="contained"
           >Logout</Button>
         }
-      </Form>
-    </Container>
+      </S.Form>
+    </S.Container>
   )
 }
 
