@@ -1,12 +1,15 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
+export const backgroundColor = '#fafafa';
+const primaryColor = '#3f51b5'
+
 export const AppContainer = styled.div`
   font-family: Roboto;
   font-size: 10px;
   max-width: 1800px;
   min-height: 100vh;
-  background-color: #fafafa;
+  background-color: ${backgroundColor};
   padding: 0;
   margin: 0 auto;
   box-shadow: 0px 0px 5rem 0px rgba(74, 158, 222, 0.2);
@@ -33,7 +36,7 @@ export const Container = styled.div.attrs<ContainerProps>(
 `;
 
 export const Header = styled.header`
-  background-color: #3f51b5;
+  background-color: ${primaryColor};
   width: 100%;
   height: 5rem;
   display: flex;
@@ -79,6 +82,10 @@ export const Input = styled.input`
   padding-left: 0.5rem;
   height: 2rem;
   font-size: 1rem;
+  border: 2px solid  ${primaryColor};
+  &:focus {
+    outline-color: #fad02c;
+  }
 `;
 
 interface LabelProps {
@@ -106,7 +113,7 @@ export const ModalContainer = styled.div`
   width: 40rem;
   height: 30vh;
   background-color: #f2f3f4;
-  border: 2px solid #3f51b5;
+  border: 2px solid  ${primaryColor};
   box-shadow: 24;
   padding: .4rem;
   display: flex;
@@ -119,23 +126,25 @@ interface TextFieldProps {
   size?: string;
   transform?: string;
   fontw?: string;
+  txtalign?: string;
 }
 export const TextField = styled.p.attrs<TextFieldProps>(
   props => ({
     size: props.size || '1rem',
     transform: props.transform || '',
-    fontw: props.fontw || 'normal'
+    fontw: props.fontw || 'normal',
+    txtalign: props.txtalign || 'center',
   })) <TextFieldProps>`
   font-size: ${props => props.size};
   text-transform: ${props => props.transform};
   font-weight: ${props => props.fontw};
+  text-align: ${props => props.txtalign};
   font-family: Roboto;
-  text-align: center;
 `;
 
 export const Table = styled.table`
   font-size: 2rem;
-  border: 2px solid #3f51b5;
+  border: 2px solid  ${primaryColor};
   cols: 5;
   cellpadding: 0.5rem;
   align: center;
@@ -144,7 +153,7 @@ export const Table = styled.table`
   box-shadow: 0px 0px 3rem 0px rgba(74, 158, 222, 0.2);
 
   th, td {
-    border: 2px solid #3f51b5;
+    border: 2px solid  ${primaryColor};
     padding: 0.5rem;
     font-size: 1.5rem;
     text-transform: uppercase;
