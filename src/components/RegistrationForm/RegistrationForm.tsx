@@ -32,6 +32,9 @@ const RegistrationForm: FC = () => {
   const [blurLogin, setBlurLogin] = useState(false);
   const [focusLogin, setFocusLogin] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [validLogin, setValidLogin] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
+  const [validPassword, setValidPassword] = useState(false);
 
   const { login } = useTypeSelector(state => state.auth);
   const { userLogin, userLogout } = useAuthActions();
@@ -135,21 +138,6 @@ const RegistrationForm: FC = () => {
     }
   }
 
-  // const validateEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-  // const validatePassword = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
-  // const validateLogin = /^[a-zA-Z](.[a-zA-Z0-9_-]*){5,}$/;
-
-  // const isValid = (regExp: any, string: string): boolean => {
-  //   return regExp.test(string)
-  // }
-
-
-  // const isPassword = isValid(validatePassword, password);
-  // const isLogin = isValid(validateLogin, userName);
-
-  let isDisableSignIn = !dataUserName?.checkUserName?.length &&
-    !dataUserEmail?.checkUserEmail?.length
-
   const submittedForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     email && password && userName && addUser({ variables: { name: userName, email, password }, });
@@ -178,10 +166,11 @@ const RegistrationForm: FC = () => {
           onChange={handleChangeName}
           onFocus={() => onFocus('login')}
           onBlur={() => onBlur('login')}
+          checkValid={setValidLogin}
           validateRegExp={/^[a-zA-Z](.[a-zA-Z0-9_-]*){5,}$/}
-          isError={blurLogin && !!userName && !focusLogin} message={'Enter a correct login'}
-          isMessage2={!!loadingLogin} message2={'Checking a login'}
-          isMessage3={dataUserName?.checkUserName[0]?.name === userName} message3={'This login already exists'}
+          isError={blurLogin && !!userName && !focusLogin} errorMessage={'Enter a correct login'}
+          isMessage1={!!loadingLogin} message1={'Checking login'}
+          isMessage2={dataUserName?.checkUserName[0]?.name === userName} message2={'This login already exists'}
         />
         <Input
           label='Enter email'
@@ -189,10 +178,11 @@ const RegistrationForm: FC = () => {
           onChange={handleChangeEmail}
           onFocus={() => onFocus('email')}
           onBlur={() => onBlur('email')}
+          checkValid={setValidEmail}
           validateRegExp={/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/}
-          isError={blurEmail && !!email && !focusEmail} message={'Enter a correct email'}
-          isMessage2={!!loadingEmail} message2={'Checking a email'}
-          isMessage3={dataUserEmail?.checkUserEmail[0]?.email === email} message3={'This email already exists'}
+          isError={blurEmail && !!email && !focusEmail} errorMessage={'Enter a correct email'}
+          isMessage1={!!loadingEmail} message1={'Checking email'}
+          isMessage2={dataUserEmail?.checkUserEmail[0]?.email === email} message2={'This email already exists'}
         />
         <Input
           label='Enter a password'
@@ -200,9 +190,10 @@ const RegistrationForm: FC = () => {
           onChange={handleChangePassword}
           onFocus={() => onFocus('password')}
           onBlur={() => onBlur('password')}
+          checkValid={setValidPassword}
           type='password'
           validateRegExp={/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g}
-          isError={blurPassword && !focusPassword && !!password} message={'Enter a correct password'}
+          isError={blurPassword && !focusPassword && !!password} errorMessage={'Enter a correct password'}
         />
         <S.Container juscontent='start' style={{ fontSize: '1rem' }}>
           <Checkbox
@@ -216,7 +207,7 @@ const RegistrationForm: FC = () => {
           !login && <Button
             type="submit"
             className={classes.button}
-            disabled={!isDisableSignIn}
+            disabled={!validLogin || !validEmail || !validPassword}
             variant="contained"
           >Sign-In</Button>
         }

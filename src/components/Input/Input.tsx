@@ -54,14 +54,15 @@ interface InputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: () => void;
   onFocus?: () => void;
+  checkValid?: (value: boolean) => void;
   required?: boolean;
   value?: string;
   isError?: boolean;
-  message?: string;
+  errorMessage?: string;
+  isMessage1?: boolean;
+  message1?: string;
   isMessage2?: boolean;
   message2?: string;
-  isMessage3?: boolean;
-  message3?: string;
   validateRegExp?: RegExp;
   type?: string;
 };
@@ -71,12 +72,21 @@ const Input: FC<InputProps> = (props) => {
   const [isValid, setIsValid] = useState(false);
 
   const { label, onChange, onBlur, onFocus, value, isError,
-    isMessage2, isMessage3, message, message2, message3, validateRegExp,
-    type = 'text' } = props;
+    isMessage1, isMessage2, errorMessage, message1, message2, validateRegExp,
+    checkValid, type = 'text' } = props;
 
   useEffect(() => {
     if (!!validateRegExp && !!value) {
       checkValidate(validateRegExp, value)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value])
+
+  useEffect(() => {
+    if (!isError && isValid && !!checkValid) {
+      checkValid(true);
+    } else if (isError && !isValid && !!checkValid) {
+      checkValid(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
@@ -108,13 +118,13 @@ const Input: FC<InputProps> = (props) => {
         juscontent='start'
         style={{ position: 'relative', width: '100%' }}>
         {(isError && !isValid) ?
-          <StyledText as='small' size='0.85rem'>{message} &nbsp;</StyledText> : null
+          <StyledText as='small' size='0.85rem'>{errorMessage} &nbsp;</StyledText> : null
+        }
+        {isMessage1 ?
+          <StyledText as='small' size='0.85rem'>{message1} &nbsp;</StyledText> : null
         }
         {isMessage2 ?
           <StyledText as='small' size='0.85rem'>{message2} &nbsp;</StyledText> : null
-        }
-        {isMessage3 ?
-          <StyledText as='small' size='0.85rem'>{message3} &nbsp;</StyledText> : null
         }
       </S.Container>
     </S.Container >
