@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, withRouter } from 'react-router-dom';
 import useTypeSelector from '../../hooks/usetypeSelector';
 
@@ -6,8 +6,8 @@ import LoginModal from '../LoginModal';
 import Searchfield from '../SearchField';
 import BurgerMenu from '../BurgerMenu';
 
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { Badge } from '@material-ui/core';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Badge } from '@mui/material';
 
 import { Container, Header, LinkGroup, StyledLink } from '../../styled/styled';
 

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { useTrail, animated } from 'react-spring'
-import { Container, TextField } from '../../styled/styled'
+import React, { useState } from 'react';
+import { useTrail, animated } from '@react-spring/web';
+import { Container, TextField } from '../../styled/styled';
 
 const Trail: React.FC<{ open: boolean }> = ({ open, children }) => {
   const items = React.Children.toArray(children)

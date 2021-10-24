@@ -1,38 +1,37 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import AlbumItems from './AlbumItems';
 import PagesNav from '../Pages/PagesNav';
-import { makeStyles } from '@material-ui/core';
 import { Albums } from '../../types/albumsTypes';
 import useTypeSelector from '../../hooks/usetypeSelector';
 
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    minHeight: '90vh',
-    '& li': {
-      listStyleType: 'none'
-    },
-    '& ul': {
-      padding: '0',
-    }
-  },
-  main: {
-    width: '30%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    '& li': {
-      width: '100%',
-    }
-  },
-  nav: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-})
+// const useStyles = makeStyles({
+//   root: {
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     justifyContent: 'space-around',
+//     minHeight: '90vh',
+//     '& li': {
+//       listStyleType: 'none'
+//     },
+//     '& ul': {
+//       padding: '0',
+//     }
+//   },
+//   main: {
+//     width: '30%',
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     '& li': {
+//       width: '100%',
+//     }
+//   },
+//   nav: {
+//     display: 'flex',
+//     flexDirection: 'row',
+//   },
+// })
 
 interface AlbumListProps {
   albums: Albums[],
@@ -47,11 +46,13 @@ const AlbumList: FC<AlbumListProps> = (props) => {
 
   const { productName } = useTypeSelector(state => state.findAndFilter)
 
-  const classes = useStyles();
-
   return (
-    <section className={classes.root}>
-      <ul className={classes.main}>
+    <section
+    //  className={classes.root}
+    >
+      <ul
+      // className={classes.main}
+      >
         {
           albums.map(album =>
             <li
@@ -66,7 +67,9 @@ const AlbumList: FC<AlbumListProps> = (props) => {
             </li>)
         }
       </ul>
-      <ul className={classes.nav}>
+      <ul
+      //  className={classes.nav}
+      >
         {
           !productName.length && pages.map((page, idx) =>
             <li

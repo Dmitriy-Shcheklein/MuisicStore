@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler } from "react"
+import React, { FC, MouseEventHandler } from "react"
 import { Container, Table, TextField } from "../../styled/styled";
 import { CartItems } from "../../types/albumsTypes";
 import CartRowTable from "./CartRowTable";

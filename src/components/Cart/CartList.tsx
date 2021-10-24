@@ -1,3 +1,4 @@
+import React from 'react';
 import useTypeSelector from "../../hooks/usetypeSelector";
 import { useActions } from "../../hooks/useActions";
 import CartTable from "./CartTable";

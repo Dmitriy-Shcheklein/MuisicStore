@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import useTypeSelector from '../../hooks/usetypeSelector';
 import ErrorIndicator from '../ErrorBoundary/ErrorIndicator';
 import Spinner from '../Spinner';

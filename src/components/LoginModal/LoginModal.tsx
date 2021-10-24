@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import useTypeSelector from '../../hooks/usetypeSelector';
 import { useAuthActions } from '../../hooks/useActions';
 
-import Button from '@material-ui/core/Button';
+import { Button } from '@mui/material/';
 import Modal from '@mui/material/Modal';
 import { Container, ModalContainer, StyledLink, TextField } from '../../styled/styled';
 

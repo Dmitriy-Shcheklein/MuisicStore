@@ -1,18 +1,17 @@
-import { makeStyles } from '@material-ui/core';
-import { Button } from '@mui/material';
+import { Button } from '@mui/material/';
 import React, { FC, MouseEventHandler } from 'react';
 import useTypeSelector from '../../hooks/usetypeSelector';
 import { useSnackbar } from 'notistack';
 
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    '& Button': {
-      marginLeft: '5px'
-    }
-  }
-})
+// const useStyles = makeStyles({
+//   root: {
+//     display: 'flex',
+//     justifyContent: 'flex-end',
+//     '& Button': {
+//       marginLeft: '5px'
+//     }
+//   }
+// })
 
 interface CartTableProps {
   cleanCart: MouseEventHandler
@@ -33,10 +32,10 @@ const CartTableButtons: FC<CartTableProps> = (props) => {
     })
   }
 
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
+    <div
+    // className={classes.root}
+    >
       <Button
         onClick={cleaningCart}
         variant='contained'

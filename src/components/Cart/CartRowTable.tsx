@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { useActions } from '../../hooks/useActions';
 import { CartItems } from '../../types/albumsTypes';
 
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material/';
 import { useSnackbar, VariantType } from 'notistack';
 
 interface RowTableProps {
@@ -51,7 +51,7 @@ const CartRowTable: FC<RowTableProps> = (props) => {
                 >Add</Button>
                 <Button
                   style={{ margin: '0 0.5rem' }}
-                  color='default'
+                  color='primary'
                   variant='contained'
                   onClick={() => manageGoods(decreaseItemToCart, item.id,
                     `${item.userId}-${item.title.toUpperCase()} decreased to cart`,

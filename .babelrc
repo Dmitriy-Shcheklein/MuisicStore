@@ -1,0 +1,22 @@
+{
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "corejs": 3,
+        "useBuiltIns": "usage",
+        "debug": true,
+        "modules": "auto"
+      }
+    ],
+    [
+      "@babel/react"
+    ],
+    [
+      "@babel/preset-typescript"
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
+  ]
+}

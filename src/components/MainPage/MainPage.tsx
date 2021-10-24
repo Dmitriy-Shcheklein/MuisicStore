@@ -1,25 +1,22 @@
-import { makeStyles } from '@material-ui/core';
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from '@react-spring/web';
 
-const useStyles = makeStyles({
-  root: {
-    fontSize: '3rem',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '80vh',
-    '& a': {
-      color: '#3f51b5',
-    }
-  }
-})
+// const useStyles = makeStyles({
+//   root: {
+//     fontSize: '3rem',
+//     display: 'flex',
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     height: '80vh',
+//     '& a': {
+//       color: '#3f51b5',
+//     }
+//   }
+// })
 
 const MainPage: FC = () => {
-
-  const classes = useStyles()
 
   const styles = useSpring({
     config: {
@@ -38,7 +35,9 @@ const MainPage: FC = () => {
   })
 
   return (
-    <div className={classes.root}>
+    <div
+    // className={classes.root}
+    >
       <div >
         <animated.div style={styles}>
           <h1 >Welcome to MusicShop</h1>

@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
@@ -10,7 +11,6 @@ import App from './components/App';
 import ErrorBoundary from './components/ErrorBoundary';
 import { MyContext } from './Context/context';
 import { Service } from './service/Service';
-
 
 const service = new Service();
 

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import styled, { keyframes } from 'styled-components';
 import { Container, TextField } from '../../styled/styled';
 

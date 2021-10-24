@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useAuthActions } from '../../hooks/useActions';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { ADD_NEW_USER } from '../../graphQL/mutations';
@@ -6,6 +6,7 @@ import { CHECK_USER_NAME, CHECK_USER_EMAIL } from '../../graphQL/queries';
 import useTypeSelector from '../../hooks/usetypeSelector';
 
 import AfterRegModal from './AfterRegModal';
+
 import Input from '../Input';
 
 import { Button, Checkbox } from '@mui/material';
@@ -69,8 +70,6 @@ const RegistrationForm: FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
-
-  const classes = useStyles();
 
   const clearForm = () => {
     setEmail('');
@@ -148,11 +147,14 @@ const RegistrationForm: FC = () => {
       <S.Form
         autoComplete="off"
         onSubmit={submittedForm}>
-        <div className={classes.wrapper}>
+        <div
+        // className={classes.wrapper}
+        >
           <S.TextField as='h2' size='2rem'>
             Please fill in the required information for registration
             {error ? <S.TextField as='p'
-              className={classes.danger}>
+            // className={classes.danger}
+            >
               Oh no! Something went wrong, please try it again</S.TextField> : null}
             {data && data.addUser ? <AfterRegModal
               handleCloseModal={handleCloseModal}
@@ -206,7 +208,7 @@ const RegistrationForm: FC = () => {
         {
           !login && <Button
             type="submit"
-            className={classes.button}
+            // className={classes.button}
             disabled={!validLogin || !validEmail || !validPassword}
             variant="contained"
           >Sign-In</Button>
@@ -214,7 +216,7 @@ const RegistrationForm: FC = () => {
         {
           login && <Button
             onClick={() => userLogout()}
-            className={classes.button}
+            // className={classes.button}
             variant="contained"
           >Logout</Button>
         }

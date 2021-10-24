@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { useFindAndFilterActions } from '../../hooks/useActions'
 import { Input, Label } from '../../styled/styled'
 
